@@ -1,6 +1,6 @@
 from conversation import Conversation, ReturnType
 from social_interaction_cloud.basic_connector import BasicSICConnector
-from story import Story
+from story import Story, Storypart
 
 
 class Storyteller:
@@ -16,7 +16,7 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic)
+        self.conversation = Conversation(self.sic, robot_present=False)
         self.story = Story()
 
     def run(self) -> None:
@@ -27,8 +27,13 @@ class Storyteller:
         self.sic.start()
         self.conversation.introduce()
 
-        for part in self.story:
-            if part.content_type == "question":
+        # TODO implement decision between story and jokes here
+
+        part = None
+        branch_option = None
+        while True:
+            part = self.story.getFollowUp(part, branch_option)
+            if part.type == "question":
                 question, intent = part.content
                 res = self.conversation.ask_question(question, intent)
                 if res == ReturnType.STOP:
@@ -36,15 +41,24 @@ class Storyteller:
                 elif res == ReturnType.MAX_ATTEMPTS:
                     self.conversation.tell_story_part(
                         "Sorry, I did not understand your answer. To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
-                    # ask for repetetion or ending through fist bump
-                    res = self.conversation.ask_question(question, intent)
-                    if res != ReturnType.SUCCESS:
-                        break
+                    # TODO ask for repetetion or ending through fist bump
+                    # res = self.conversation.ask_question(question, intent)
+                    # if res != ReturnType.SUCCESS:
+                    break
+                
 
-            elif part.content_type == "storypart":
+            elif part.type == "storypart":
                 storypart = part.content
-                self.conversation.tell_story_part(Story.format(
+                self.conversation.tell_story_part(Storypart.format(
                     storypart, self.conversation.user_model, part.id))
+
+            elif part.type == "choice":
+                storypart = part.content
+                # TODO check how touching of hands is recognized and processed
+                # self.sic.subscribe_touch_listener('HandRightBackTouched', self.conversation.set_current_branch_option_0)
+                # self.sic.subscribe_touch_listener('HandLeftBackTouched', self.conversation.set_current_branch_option_1)
+                self.conversation.request_choice(Storypart.format(storypart, self.conversation.user_model, part.id))
+                branch_option = self.conversation.user_model['current_branch_option']
 
         self.conversation.end_conversation()
         self.sic.stop()

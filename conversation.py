@@ -1,11 +1,12 @@
 from social_interaction_cloud.abstract_connector import AbstractSICConnector
 from social_interaction_cloud.action import ActionRunner
-from social_interaction_cloud.basic_connector import BasicSICConnector
+from social_interaction_cloud.basic_connector import BasicSICConnector, RobotPosture
 from social_interaction_cloud.detection_result_pb2 import DetectionResult
+from enum import Enum
 
 
 class ReturnType(Enum):
-    MAX_ATTEMPTS = 1
+    MAX_ATTEMPTS = -1
     STOP = 0
     SUCCESS = 1
 
@@ -32,7 +33,7 @@ class Conversation:
         :param robot_present: Indicating whether a real robot is used or only emulated on a computer. If false, all gestures will be skipped.
         """
         self.action_runner = ActionRunner(sic)
-        self.user_model = {"name": "", "age": -1}
+        self.user_model = {"name": "", "age": -1, "current_branch_option": ""}
         self.recognition_manager = {
             'attempt_success': False, 'attempt_number': 0, 'max_attempts': 2, 'intent_result': -1}
         self.robot_present = robot_present
@@ -57,6 +58,38 @@ class Conversation:
         if self.robot_present:
             self.action_runner.run_waiting_action('rest')
 
+    def request_choice(self, question: str = None, gesture: Gesture = None):
+        self.action_runner.load_waiting_action('say', question)
+        if (self.robot_present and gesture is not None):
+            self.action_runner.load_waiting_action('do_gesture', gesture)
+        self.action_runner.run_loaded_actions()
+
+        # lift arm to provide possibility to give fistbump/handshake
+        
+        if self.robot_present:
+            self.action_runner.load_waiting_action('play_motion', Gesture.left_arm_fist)
+            # self.action_runner.load_waiting_action('do_gesture', Gesture.right_arm_fist)
+
+        # self.sic.subscribe_touch_listener('HandRightBackTouched', self.set_current_branch_option_0)
+        # self.sic.subscribe_touch_listener('HandLeftBackTouched', self.set_current_branch_option_1)
+        # wait for fist to be grapped
+        self.action_runner.run_loaded_actions()
+
+        # test
+        self.set_current_branch_option_0()
+        # 
+
+    # TODO make this more efficient and able to have more then two options
+    def set_current_branch_option_0(self):
+        self.user_model['current_branch_option'] = 0
+        if self.robot_present:
+            self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
+
+    def set_current_branch_option_1(self):
+        self.user_model['current_branch_option'] = 1
+        if self.robot_present:
+            self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
+
     def ask_question(self, question: str = None, intent: str = None, gesture: Gesture = None) -> ReturnType:
         """
         Ask a question to the human and wait for an answer. Specified Dialogflow intent will be used to determine answer.
@@ -77,9 +110,9 @@ class Conversation:
             if self.recognition_manager['intent_result'] == 0:
                 return ReturnType.STOP
 
-        self.reset_recognition_management()
         if self.recognition_manager['attempt_number'] == self.recognition_manager['max_attempts']:
             return ReturnType.MAX_ATTEMPTS
+        self.reset_recognition_management()
 
         return ReturnType.SUCCESS
 
