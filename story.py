@@ -27,7 +27,44 @@ class Story:
             "q4": Storypart(id="q4", content_type="choice", content="Do you want to go left or right?", follow_id={0: "q2", 1: "q3"}),
             "q2": Storypart(id="q2", content_type="question", content=("How old are you?", "answer_age"), follow_id="q3"),
             "q3": Storypart(id="q3", content_type="question", content=("Do you want to hear a cool story?", "answer_decision"), follow_id="p1"),
-            "p1": Storypart(id="p1", content_type="storypart", content="Cool {0}, since you are {1} years older than me, you probably know more than I do.", follow_id="q4")
+            "p1": Storypart(id="p1", content_type="storypart", content="Cool {0}, since you are {1} years older than me, you probably know more than I do.", follow_id="q4"),
+
+            # Maybe add an ending option?
+            "s1": Storypart(id="s1", content_type="ending", content="Okay, it was nice to talk to you"),
+            "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
+            "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "d3", 1: "s1"}),
+            "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
+            "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. this morning I rolled out of bed straight to the kitchen to make myself a royal breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the ceramic bowl on my wooden table were gone. Hastily, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d5"),
+
+            #Added line for inbetween falling and getting up
+            "d5": Storypart(id="d5", content_type="storypart", content="Ouch!", follow_id="d6"),
+            "d6": Storypart(id="d6", content_type="storypart", content="I looked around in chock, I certainly did not put this banana here. I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", follow_id="d7"),
+
+            #Edit this follow. Should this not possible be able to lead to multiple options? Correct and false? Maybe even can't understand you or should I repeat my question?
+            "d7": Storypart(id="d7", content_type="question", content=("First, I wanted to check the rooms upstairs. Taking two steps at a time I flew up the stairs. In total, I had to take 22 steps. How many steps does my staircase have in total?", "???"), follow_id="d8"),
+            "d8a": Storypart(id="d8a", content_type="storypart", content="Well done! 44 steps indeed!", follow_id="d9"),
+            "d8b": Storypart(id="d8b", content_type="storypart", content="Sorry, it was 44 steps. But good try, though!", follow_id="d9"),
+
+            #This will probably be an eventlistener or something, do we need to create an separate content_type for it?
+            "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", follow_id="d10"),
+            "d10": Storypart(id="d10", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound and on my right I heard something that sounded like a trumpet", follow_id="d11"),
+
+            #Currently a fake choice, could change this later
+            "d11": Storypart(id="d11", content_type="choice", content="Where would you have gone? Left or right?", follow_id={0: "d12a", 1: "d12b"}),
+            "d12a": Storypart(id="d12a", content_type="storypart", content="Yes very good, that is where I went as well!", follow_id="d13"),
+            "d12b": Storypart(id="d12b", content_type="storypart", content="Very good thinking, but I chose to go to the right and investigate the trumpet sounds.", follow_id="d13"),
+            "d13": Storypart(id="d13", content_type="storypart", content="“I took out my magnifying glass, which I always have in my pocket for such occasions. Leaning close to the floor, I could see enormous footprints going all the way to my bathroom. Curious. I made my way to the bathroom, where I thought I heard rustling and water continuously dripping on the bathroom tiles.", follow_id="d14"),
+            "d14": Storypart(id="d14", content_type="storypart", content="I crept quietly towards the bathroom door, trying not to make a sound.", follow_id="d15"),
+
+            #This should be a sound effect
+            "d15": Storypart(id="d15", content_type="storypart", content="Sssssssstttt", follow_id="d16"),
+            "d16": Storypart(id="d16", content_type="storypart", content="I opened the door in one movement and looked inside.", follow_id="d17"),
+
+            #Should complete soundeffects also be a storypart?
+            "d17": Storypart(id="d17", content_type="storypart", content="There was no one or nothing inside the bathroom, so I casually walked in.", follow_id="d18"),
+            "d18": Storypart(id="d18", content_type="storypart", content="Maybe I just imagined the sounds.", follow_id="d19"),
+
+            #BATHROOM SCENE STARTS HERE
         }
 
     def getFollowUp(self, storypart=None, branch_option: str = None):
