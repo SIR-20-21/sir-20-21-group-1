@@ -1,6 +1,7 @@
 from conversation import Conversation, ReturnType
 from social_interaction_cloud.basic_connector import BasicSICConnector
 from story import Story, Storypart
+# from naoqi import ALProxy
 
 
 class Storyteller:
@@ -16,8 +17,11 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic, robot_present=False)
+        self.conversation = Conversation(self.sic, robot_present=True)
         self.story = Story()
+
+        # self.tts = ALProxy("ALTextToSpeech", server_ip, 9559)
+        # self.tts.setParameter("speed", 200)
 
     def run(self) -> None:
         """
@@ -33,6 +37,9 @@ class Storyteller:
         branch_option = None
         while True:
             part = self.story.getFollowUp(part, branch_option)
+            if (part is None):
+                break
+
             if part.type == "question":
                 question, intent = part.content
                 res = self.conversation.ask_question(question, intent)
@@ -50,15 +57,18 @@ class Storyteller:
             elif part.type == "storypart":
                 storypart = part.content
                 self.conversation.tell_story_part(Storypart.format(
-                    storypart, self.conversation.user_model, part.id))
+                    storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, soundfile=part.soundfile)
 
             elif part.type == "choice":
+                last_branch_option = self.conversation.current_branch_option
                 storypart = part.content
                 # TODO check how touching of hands is recognized and processed
-                # self.sic.subscribe_touch_listener('HandRightBackTouched', self.conversation.set_current_branch_option_0)
-                # self.sic.subscribe_touch_listener('HandLeftBackTouched', self.conversation.set_current_branch_option_1)
-                self.conversation.request_choice(Storypart.format(storypart, self.conversation.user_model, part.id))
-                branch_option = self.conversation.user_model['current_branch_option']
+                self.sic.subscribe_touch_listener('HandRightBackTouched', self.conversation.set_current_branch_option_0)
+                self.sic.subscribe_touch_listener('HandLeftBackTouched', self.conversation.set_current_branch_option_1)
+                self.conversation.request_choice(question=Storypart.format(storypart, self.conversation.user_model, part.id))
+                while (last_branch_option == self.conversation.current_branch_option):
+                    pass
+                branch_option = self.conversation.current_branch_option
 
         self.conversation.end_conversation()
         self.sic.stop()

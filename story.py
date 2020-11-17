@@ -1,3 +1,6 @@
+from conversation import Motion, MOVEMENT_TYPE
+from social_interaction_cloud.basic_connector import RobotPosture
+
 class Story:
     """
     Represents an possibly interaction story including parts, that are only told by the robots and parts that require the human to give answers.
@@ -8,7 +11,7 @@ class Story:
         :return:
         """
         # allows you to directly jump to a storypart
-        self.initial_id = "q1"
+        self.initial_id = "d0"
 
         # This is the actual story
         # Each Storypart needs an ID, a content_type and the content.
@@ -23,6 +26,7 @@ class Story:
         #   If the follow_id is a dictionary, the values represent the possible options for the following part depending on the users choice
 
         self.story = {
+            "d0": Storypart(id="d0", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="s1"),
             "q1": Storypart(id="q1", content_type="question", content=("What is your name?", "answer_name"), follow_id="q2"),
             "q4": Storypart(id="q4", content_type="choice", content="Do you want to go left or right?", follow_id={0: "q2", 1: "q3"}),
             "q2": Storypart(id="q2", content_type="question", content=("How old are you?", "answer_age"), follow_id="q3"),
@@ -34,10 +38,11 @@ class Story:
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
             "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "d3", 1: "s1"}),
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
-            "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. this morning I rolled out of bed straight to the kitchen to make myself a royal breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the ceramic bowl on my wooden table were gone. Hastily, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d5"),
-
+            "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. this morning I rolled out of bed straight to the kitchen to make myself a royal breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the ceramic bowl on my wooden table were gone. Hastily, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
+            "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
             #Added line for inbetween falling and getting up
-            "d5": Storypart(id="d5", content_type="storypart", content="Ouch!", follow_id="d6"),
+            "d5": Storypart(id="d5", content_type="storypart", content="Ouch!", follow_id="d5a"),
+            "d5a": Storypart(id="d5a", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d6"),
             "d6": Storypart(id="d6", content_type="storypart", content="I looked around in chock, I certainly did not put this banana here. I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", follow_id="d7"),
 
             #Edit this follow. Should this not possible be able to lead to multiple options? Correct and false? Maybe even can't understand you or should I repeat my question?
@@ -46,7 +51,7 @@ class Story:
             "d8b": Storypart(id="d8b", content_type="storypart", content="Sorry, it was 44 steps. But good try, though!", follow_id="d9"),
 
             #This will probably be an eventlistener or something, do we need to create an separate content_type for it?
-            "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", follow_id="d10"),
+            "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", movement=Motion.left_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d10"),
             "d10": Storypart(id="d10", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound and on my right I heard something that sounded like a trumpet", follow_id="d11"),
 
             #Currently a fake choice, could change this later
@@ -89,22 +94,25 @@ class Story:
         return None
 
 
+
 class Storypart:
     """
     Represents a part of a story (e.g. a question or just text) that can include, text or gestures and can require human feedback.
     """
 
-    def __init__(self, id: str, content_type: str, content, gesture: str = None, follow_id=None):
+    def __init__(self, id: str, content_type: str, content, movement: str = None, movement_type: MOVEMENT_TYPE = None, soundfile: str = None, follow_id=None):
         """
         :param id: Identification of storypart (str)
         :param content_type: Determines whether human feedback is needed or not. (str)
         :param content: Contains text and depending on the content_type also the dialogflow intent
-        :param gesture: Gesture to be executed during speech (str)
+        :param movement: movement to be executed during speech (str)
         """
         self.id = id
         self.type = content_type
         self.content = content
-        self.gesture = gesture
+        self.movement = movement
+        self.movement_type = movement_type
+        self.soundfile = soundfile
         self.follow_id = follow_id
 
     def hasGesture(self) -> bool:
