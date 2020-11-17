@@ -6,9 +6,10 @@ from enum import Enum
 
 
 class ReturnType(Enum):
-    MAX_ATTEMPTS = -1
-    STOP = 0
+    MAX_ATTEMPTS = 0
+    STOP = -1
     SUCCESS = 1
+    WRONG_ANSWER = 2
 
 class MOVEMENT_TYPE(Enum):
     GESTURE = 0
@@ -54,7 +55,7 @@ class Conversation:
         if self.robot_present:
             self.action_runner.load_waiting_action('wake_up')
         self.action_runner.run_loaded_actions()
-        self.action_runner.run_waiting_action('say', 'Hello, world! I am Nao.')
+        self.action_runner.run_waiting_action('say_animated', 'Hello, world! I am Nao.')
 
     def end_conversation(self) -> None:
         """
@@ -62,12 +63,12 @@ class Conversation:
         :return:
         """
         self.action_runner.run_waiting_action(
-            'say', 'It was nice talking to you! Bye bye!')
+            'say_animated', 'It was nice talking to you! Bye bye!')
         if self.robot_present:
             self.action_runner.run_waiting_action('rest')
 
-    def request_choice(self, question: str = None, gesture: Gesture = None):
-        self.action_runner.load_waiting_action('say', question)
+    def request_choice(self, question: str = None, gesture = None):
+        self.action_runner.load_waiting_action('say_animated', question)
         if (self.robot_present and gesture is not None):
             self.action_runner.load_waiting_action('do_gesture', gesture)
         self.action_runner.run_loaded_actions()
@@ -75,32 +76,18 @@ class Conversation:
         # lift arm to provide possibility to give fistbump/handshake
         
         if self.robot_present:
-            self.action_runner.load_waiting_action('go_to_posture', speed=50, posture=RobotPosture.STANDZERO)
+            self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STANDZERO, 50)
 
         # wait for fist to be grapped
         self.action_runner.run_loaded_actions()
 
-        # test
-        # self.set_current_branch_option_0()
-        # 
-
-    # TODO make this more efficient and able to have more then two options
-    # def set_current_branch_option(self, option: int):
-    #     self.current_branch_option = option
-    #     if self.robot_present:
-    #         self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
-
-    def set_current_branch_option_0(self):
-        self.current_branch_option = 0
+    def set_current_choice(self, option: int):
+        self.current_choice = option
         if self.robot_present:
             self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
 
-    def set_current_branch_option_1(self):
-        self.current_branch_option = 1
-        if self.robot_present:
-            self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
 
-    def ask_question(self, question: str = None, intent: str = None, gesture: Gesture = None) -> ReturnType:
+    def ask_question(self, question: str = None, intent: str = None, gesture = None, expected_answer: str = None) -> ReturnType:
         """
         Ask a question to the human and wait for an answer. Specified Dialogflow intent will be used to determine answer.
         :param question: Question to be asked to the human via speech (str)
@@ -110,7 +97,7 @@ class Conversation:
         """
         while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < self.recognition_manager['max_attempts']:
             # ask question
-            self.action_runner.load_waiting_action('say', question)
+            self.action_runner.load_waiting_action('say_animated', question)
             if (self.robot_present and gesture is not None):
                 self.action_runner.load_waiting_action('do_gesture', gesture)
             self.action_runner.run_loaded_actions()
@@ -118,13 +105,22 @@ class Conversation:
             self.action_runner.run_waiting_action(
                 'speech_recognition', intent, 0, additional_callback=self.on_intent)
             if self.recognition_manager['intent_result'] == 0:
+                self.reset_recognition_management()
                 return ReturnType.STOP
 
         if self.recognition_manager['attempt_number'] == self.recognition_manager['max_attempts']:
+            self.reset_recognition_management()
             return ReturnType.MAX_ATTEMPTS
-        self.reset_recognition_management()
 
-        return ReturnType.SUCCESS
+        if expected_answer is not None and self.recognition_manager['intent_result'] == expected_answer:
+            self.reset_recognition_management()
+            return ReturnType.SUCCESS
+
+        elif expected_answer is None and self.recognition_manager['intent_result'] == 1:
+            self.reset_recognition_management()
+            return ReturnType.SUCCESS
+
+        return ReturnType.WRONG_ANSWER
 
     def tell_story_part(self, text: str, movement: str = None, movement_type: MOVEMENT_TYPE = None, soundfile: str = None) -> None:
         """
@@ -133,7 +129,7 @@ class Conversation:
         :param movement: movement to be made while the storypart is being told (str)
         :return:
         """
-        self.action_runner.load_waiting_action('say', text)
+        self.action_runner.load_waiting_action('say_animated', text)
         if (self.robot_present and movement is not None):
             if movement_type == MOVEMENT_TYPE.POSTURE:
                 self.action_runner.load_waiting_action('go_to_posture', movement)
@@ -141,7 +137,7 @@ class Conversation:
                 self.action_runner.load_waiting_action('play_motion', movement)
             elif movement_type == MOVEMENT_TYPE.GESTURE:
                 self.action_runner.load_waiting_action('do_gesture', movement)
-        if soundfile is not None:
+        if self.robot_present and soundfile is not None:
             self.action_runner.load_waiting_action('play_audio', soundfile)
         self.action_runner.run_loaded_actions()
 
@@ -181,10 +177,14 @@ class Conversation:
                 self.recognition_manager['intent_result'] = 1
 
             elif detection_result.intent == 'answer_decision':
-                print(detection_result.parameters['decision'].string_value)
                 self.user_model['decision'] = detection_result.parameters['decision'].string_value
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = 1
+
+            elif detection_result.intent == 'answer_math_question':
+                print(detection_result)
+                self.recognition_manager['attempt_success'] = True
+                self.recognition_manager['intent_result'] = str(int(detection_result.parameters['number'].number_value))
 
             elif detection_result.intent == "stop":
                 # self.end_conversation()

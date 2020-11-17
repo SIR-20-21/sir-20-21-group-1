@@ -17,7 +17,7 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic, robot_present=True)
+        self.conversation = Conversation(self.sic, robot_present=False)
         self.story = Story()
 
         # self.tts = ALProxy("ALTextToSpeech", server_ip, 9559)
@@ -41,17 +41,33 @@ class Storyteller:
                 break
 
             if part.type == "question":
-                question, intent = part.content
-                res = self.conversation.ask_question(question, intent)
+                question, intent, expected_answer = part.content
+                res = self.conversation.ask_question(question=question, intent=intent, expected_answer=expected_answer)
                 if res == ReturnType.STOP:
                     break
                 elif res == ReturnType.MAX_ATTEMPTS:
                     self.conversation.tell_story_part(
-                        "Sorry, I did not understand your answer. To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
+                        "Sorry, I did not understand your answer.")
                     # TODO ask for repetetion or ending through fist bump
                     # res = self.conversation.ask_question(question, intent)
-                    # if res != ReturnType.SUCCESS:
-                    break
+                    last_choice = self.conversation.current_choice
+                    self.sic.subscribe_touch_listener('HandRightBackTouched', lambda : self.conversation.set_current_choice(0))
+                    self.sic.subscribe_touch_listener('HandLeftBackTouched', lambda : self.conversation.set_current_choice(1))   
+                    self.conversation.request_choice("To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
+                    while (last_choice == self.conversation.current_choice):
+                        pass
+                    if last_choice == 0:
+                        # repeat
+                        pass
+                    elif last_choice == 1:
+                        break
+                elif res == ReturnType.WRONG_ANSWER:
+                    branch_option = 0
+                elif res == ReturnType.SUCCESS:
+                    if expected_answer is not None:
+                        branch_option = 1
+                    else:
+                        branch_option = None
                 
 
             elif part.type == "storypart":
@@ -60,15 +76,15 @@ class Storyteller:
                     storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, soundfile=part.soundfile)
 
             elif part.type == "choice":
-                last_branch_option = self.conversation.current_branch_option
+                last_choice = self.conversation.current_choice
                 storypart = part.content
-                # TODO check how touching of hands is recognized and processed
-                self.sic.subscribe_touch_listener('HandRightBackTouched', self.conversation.set_current_branch_option_0)
-                self.sic.subscribe_touch_listener('HandLeftBackTouched', self.conversation.set_current_branch_option_1)
+                
+                self.sic.subscribe_touch_listener('HandRightBackTouched', lambda : self.conversation.set_current_choice(0))
+                self.sic.subscribe_touch_listener('HandLeftBackTouched', lambda : self.conversation.set_current_choice(1))
                 self.conversation.request_choice(question=Storypart.format(storypart, self.conversation.user_model, part.id))
-                while (last_branch_option == self.conversation.current_branch_option):
+                while (last_choice == self.conversation.current_choice):
                     pass
-                branch_option = self.conversation.current_branch_option
+                choice = self.conversation.current_choice
 
         self.conversation.end_conversation()
         self.sic.stop()
