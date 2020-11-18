@@ -39,7 +39,7 @@ class Story:
             "s1": Storypart(id="s1", content_type="storypart", content="Thank you for helping me!"),
             #
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
-            "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "d3", 1: "s1"}),
+            "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "s1", 1: "d3"}),
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
             "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. this morning I rolled out of bed straight to the kitchen to make myself a royal breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the ceramic bowl on my wooden table were gone. Hastily, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
             "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
@@ -49,9 +49,11 @@ class Story:
             "d6": Storypart(id="d6", content_type="storypart", content="I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", follow_id="d7"),
 
             #Edit this follow. Should this not possible be able to lead to multiple options? Correct and false? Maybe even can't understand you or should I repeat my question?
-            "d7": Storypart(id="d7", content_type="question", content=("First, I wanted to check the rooms upstairs. Taking two steps at a time I flew up the stairs. In total, I had to take 22 steps. How many steps does my staircase have in total?", "answer_math_question", "44"), follow_id={0: "d8a", 1: "d8b"}),
-            "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 44 steps. But good try, though!", follow_id="d9"),
-            "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 44 steps indeed!", follow_id="d9"),
+            # TODO insert stair gesture below
+            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs", movement=None, movement_type=None, follow_id="d7a"),
+            "d7a": Storypart(id="d7a", content_type="question", content=("{0} How many steps does my staircase have in total?", "answer_math_question", "24"), follow_id={0: "d8a", 1: "d8b"}),
+            "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 24 steps. But good try, though!", follow_id="d9"),
+            "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
 
             #This will probably be an eventlistener or something, do we need to create an separate content_type for it?
             "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", movement=Motion().left_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d10"),
@@ -132,10 +134,10 @@ class Storypart:
         # LIST ALL STORYPARTS HERE THAT NEED INFORMATION FROM THE USER MODEL OR OTHER INFORMATION INSERTED
         ###########
         # example for math question depending on user age
-        elif story_part_id == "d7":
+        elif story_part_id == "d7a":
             if user_model["age"] < 9:
-                return text.format("simple question")
+                return text.format("taking two steps at a time. In total, I had to take 12 steps.")
             else:
-                return text.format("hard question")
+                return text.format("and had to take 3 steps times 8 to get to the first floor.")
         else:
             return text
