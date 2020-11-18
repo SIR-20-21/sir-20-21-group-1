@@ -11,7 +11,7 @@ class Story:
         :return:
         """
         # allows you to directly jump to a storypart
-        self.initial_id = "d0"
+        self.initial_id = "d7"
 
         # This is the actual story
         # Each Storypart needs an ID, a content_type and the content.
@@ -26,32 +26,35 @@ class Story:
         #   If the follow_id is a dictionary, the values represent the possible options for the following part depending on the users choice
 
         self.story = {
+            ########################## TEST PARTS ######################
             "d0": Storypart(id="d0", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="s1"),
             "q1": Storypart(id="q1", content_type="question", content=("What is your name?", "answer_name"), follow_id="q2"),
             "q4": Storypart(id="q4", content_type="choice", content="Do you want to go left or right?", follow_id={0: "q2", 1: "q3"}),
-            "q2": Storypart(id="q2", content_type="question", content=("How old are you?", "answer_age"), follow_id="q3"),
-            "q3": Storypart(id="q3", content_type="question", content=("Do you want to hear a cool story?", "answer_decision"), follow_id="p1"),
+            "q2": Storypart(id="q2", content_type="question", content=("How old are you?", "answer_age"), follow_id="p1"),
+            "q3": Storypart(id="q3", content_type="question", content=("Do you want to hear a cool story?", "answer_decision"), follow_id="d4"),
             "p1": Storypart(id="p1", content_type="storypart", content="Cool {0}, since you are {1} years older than me, you probably know more than I do.", follow_id="q4"),
+            ############################################################
 
             # Maybe add an ending option?
-            "s1": Storypart(id="s1", content_type="ending", content="Okay, it was nice to talk to you"),
+            "s1": Storypart(id="s1", content_type="storypart", content="Thank you for helping me!"),
+            #
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
             "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "d3", 1: "s1"}),
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
             "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. this morning I rolled out of bed straight to the kitchen to make myself a royal breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the ceramic bowl on my wooden table were gone. Hastily, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
             "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
             #Added line for inbetween falling and getting up
-            "d5": Storypart(id="d5", content_type="storypart", content="Ouch!", follow_id="d5a"),
+            "d5": Storypart(id="d5", content_type="storypart", content="Ouch! I looked around in chock, I certainly did not put this banana here.", follow_id="d5a"),
             "d5a": Storypart(id="d5a", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d6"),
-            "d6": Storypart(id="d6", content_type="storypart", content="I looked around in chock, I certainly did not put this banana here. I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", follow_id="d7"),
+            "d6": Storypart(id="d6", content_type="storypart", content="I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", follow_id="d7"),
 
             #Edit this follow. Should this not possible be able to lead to multiple options? Correct and false? Maybe even can't understand you or should I repeat my question?
-            "d7": Storypart(id="d7", content_type="question", content=("First, I wanted to check the rooms upstairs. Taking two steps at a time I flew up the stairs. In total, I had to take 22 steps. How many steps does my staircase have in total?", "???"), follow_id="d8"),
-            "d8a": Storypart(id="d8a", content_type="storypart", content="Well done! 44 steps indeed!", follow_id="d9"),
-            "d8b": Storypart(id="d8b", content_type="storypart", content="Sorry, it was 44 steps. But good try, though!", follow_id="d9"),
+            "d7": Storypart(id="d7", content_type="question", content=("First, I wanted to check the rooms upstairs. Taking two steps at a time I flew up the stairs. In total, I had to take 22 steps. How many steps does my staircase have in total?", "answer_math_question", "44"), follow_id={0: "d8a", 1: "d8b"}),
+            "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 44 steps. But good try, though!", follow_id="d9"),
+            "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 44 steps indeed!", follow_id="d9"),
 
             #This will probably be an eventlistener or something, do we need to create an separate content_type for it?
-            "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", movement=Motion.left_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d10"),
+            "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", movement=Motion().left_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d10"),
             "d10": Storypart(id="d10", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound and on my right I heard something that sounded like a trumpet", follow_id="d11"),
 
             #Currently a fake choice, could change this later
@@ -87,7 +90,6 @@ class Story:
                 elif type(self.story[storypart.id].follow_id) is dict:
                     return self.story[self.story[storypart.id].follow_id[branch_option]]
 
-            return None
         else:
             return self.story[self.initial_id]
 
@@ -115,13 +117,6 @@ class Storypart:
         self.soundfile = soundfile
         self.follow_id = follow_id
 
-    def hasGesture(self) -> bool:
-        """
-        Check whether a gesture is registered with this storypart.
-        :return: True, if a gesture has been registered (bool)
-        """
-        return self.gesture is not None
-
     @staticmethod
     def format(text, user_model, story_part_id) -> str:
         """
@@ -133,25 +128,14 @@ class Storypart:
         """
         if story_part_id == "p1":
             return text.format(user_model["name"], str(int(user_model["age"] - 5)))
+        ###########
+        # LIST ALL STORYPARTS HERE THAT NEED INFORMATION FROM THE USER MODEL OR OTHER INFORMATION INSERTED
+        ###########
+        # example for math question depending on user age
+        elif story_part_id == "d7":
+            if user_model["age"] < 9:
+                return text.format("simple question")
+            else:
+                return text.format("hard question")
         else:
             return text
-
-
-class StoryIterator():
-    '''
-    Iterator class for a story
-    '''
-
-    def __init__(self, story):
-        self.story = story
-        self._index = "q1"
-
-    def __next__(self):
-        if self.story[self._index] is not None:
-            if type(self.story[self._index]) is str:
-                current_part = self.story[self._index]
-                self._index = self.story[self._index].follow_id
-                return current_part
-            # elif type(self.story[self._index]) is dict:
-
-        raise StopIteration
