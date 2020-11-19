@@ -55,10 +55,16 @@ class Story:
             
             #Edit this follow. Should this not possible be able to lead to multiple options? Correct and false? Maybe even can't understand you or should I repeat my question?
             # TODO insert stair gesture below
-            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs", movement=None, movement_type=None, follow_id="d7a"),
-            "d7a": Storypart(id="d7a", content_type="question", content=("{0} How many steps does my staircase have in total?", "answer_math_question", "24"), follow_id={0: "d8a", 1: "d8b"}),
+            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. Taking two steps at a time, I flew up the stairs", movement=None, movement_type=None, follow_id="d7a"),
+            "d7a": Storypart(id="d7a", content_type="question", content=("In total I had to take 12 steps, how many steps does my staircase have in total {0}?", "answer_math_question_easy", "24"), follow_id={0: "d8a", 1: "d8b"}),
             "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 24 steps. But good try, though!", follow_id="d9"),
             "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
+
+            #HARDER question
+            #"d7x": Storypart(id="d7x", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs and had to take 3 steps times 8 to get to the first floor", movement=None, movement_type=None, follow_id="d7xa"),
+            #"d7xa": Storypart(id="d7xa", content_type="question", content=("{0} How many steps does my staircase have in total?", "answer_math_question_hard", "24"), follow_id={0: "d8xa", 1: "d8xb"}),
+            #"d8xa": Storypart(id="d8xa", content_type="storypart", content="Sorry, it was 24 steps. But good try, though!", follow_id="d9"),
+            #"d8xb": Storypart(id="d8xb", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
 
             #This will probably be an eventlistener or something, do we need to create an separate content_type for it?
             "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", movement=Motion().left_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d10"),
