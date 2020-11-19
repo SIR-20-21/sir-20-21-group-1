@@ -44,7 +44,7 @@ class Story:
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
             "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "s1", 1: "d3"}),
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
-            "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. this morning I rolled out of bed straight to the kitchen to make myself a royal breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the ceramic bowl on my wooden table were gone. Hastily, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
+            "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. I rolled out of bed straight to the kitchen to make myself a major breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the bowl on my wooden table were gone. While in a hurry, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
             "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
             #Added line for inbetween falling and getting up
             "d5": Storypart(id="d5", content_type="storypart", content="Ouch! I looked around in chock, I certainly did not put this banana here.", follow_id="d5a"),
@@ -86,7 +86,12 @@ class Story:
             "d20": Storypart(id="d20", content_type="storypart", content="While I was looking in the mirror I noticed that there was an elephant standing in the shower.", movement=Motion().elephant_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d21"),
             "d21": Storypart(id="d21", content_type="storypart", content="The elephant could be the one that ate all my bananas, but then I remembered that elephants don’t eat bananas.", follow_id="d22"),
             "d22": Storypart(id="d22", content_type="question", content=("{0}, what is the favourite food of an elephant: chocolate or peanuts?","answer_food_question", "peanuts"), follow_id= {0: "d23a", 1: "d23b"}),
-            
+
+            #HARDER question -> don't know what is practical for implementation
+            #"d22x": Storypart(id="d22x", content_type="question", content=("{0}, How much grass and leaves does an elephant consume every day: 150 kilograms or 15 kilograms?","answer_food_question_hard", "150 kilograms"), follow_id= {0: "d23xa", 1: "d23xb"}),
+            #"d23xa": Storypart(id="d23xa", content_type="storypart", content="No, unfortunately 15 kilograms is not correct. An elephants can eat 150 kilograms of gras and leaves per day!", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
+            #"d23xb": Storypart(id="d23xb", content_type="storypart", content="Yes, very good! ELephants can eat 150 kilograms of grass and leaves per day!", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
+
             #maybe add interaction momement with touching NAO's hands?
             
             "d23a": Storypart(id="d23a", content_type="storypart", content="No, unfortunately chocolate is not correct. Elephants eat a lot of peanuts!", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
@@ -105,7 +110,15 @@ class Story:
             "d31b": Storypart(id="d31b", content_type="storypart", content="Very good!! The correct answer is indeed purple.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d32"),
             "d32": Storypart(id="d32", content_type="question", content=("And what happens if you mix the colors yellow and red?", "answer_easy_color_question_two", "orange"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d33a", 1: "d33b"}),
             "d33a": Storypart(id="d33a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. When you mix the colors yellow and red you will get orange.", follow_id="d34"),
-            "d33b": Storypart(id="d33b", content_type="storypart", content="Very good!! The correct answer is indeed orange.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d34")
+            "d33b": Storypart(id="d33b", content_type="storypart", content="Very good!! The correct answer is indeed orange.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d34"),
+
+            #HARDER QUESTION
+            #"d30x": Storypart(id="d30x", content_type="question", content=("{0}, what is the opposite color of the color green", "answer_color_question_one_hard", "red"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d31xa", 1: "d31xb"}),
+            #"d31xa": Storypart(id="d31xa", content_type="storypart", content="No, unfortunately that is not correct, but still a very good try. The opposite color of green, which is called a complementary color, is the color red.", follow_id="d32x"),
+            #"d31xb": Storypart(id="d31xb", content_type="storypart", content="Very good!! The correct answer is indeed green.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d32x"),
+            #"d32x": Storypart(id="d32x", content_type="question", content=("And what is the opposite color of the color blue?", "answer_color_question_two_hard", "yellow"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d33xa", 1: "d33xb"}),
+            #"d33xa": Storypart(id="d33xa", content_type="storypart", content="No, unfortunately that is not correct, but still a very good try. The complementary color of blue, is the color yellow.", follow_id="d34"),
+            #"d33xb": Storypart(id="d33xb", content_type="storypart", content="Very good!! The correct answer is indeed yellow.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d34"),
 
             "d34": Storypart(id="d34", content_type="storypart", content="This is fun, I'm really happy that you are helping me!", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d35"),
             "d35": Storypart(id="d35", content_type="storypart", content="Okay back to the story.", follow_id="d36"),
@@ -120,6 +133,12 @@ class Story:
             "d41": Storypart(id="d41", content_type="question", content=("{0} how many red parakeets were in the tree?", "answer_easy_parakeets", "20"), follow_id={0: "d42a", 1: "d42b"}),
             "d42a": Storypart(id="d42a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. There were 20 red parakeets in the tree.", follow_id="d43"),
             "d42b": Storypart(id="d42b", content_type="storypart", content="Excellent!! The correct answer is indeed 20.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d43"),
+
+            #HARDER question
+            #"d41x": Storypart(id="d41x", content_type="question", content=("{0}, how many green parakeets were left in the tree, if a quarter of the green parakeets flew away", "answer_parakeets_hard", "15"), follow_id={0: "d42xa", 1: "d42xb"}),
+            #"d42xa": Storypart(id="d42xa", content_type="storypart", content="That is not correct unfortunately, there were 15 green parakeets in the tree left.", follow_id="d43"),
+            #"d42xb": Storypart(id="d42xb", content_type="storypart", content="Excellent!! The correct answer is indeed 20.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d43"),
+
             "d43": Storypart(id="d43", content_type="storypart", content="After looking around in the garden I saw that the backdoor was unlocked with dirty footprints on the door, which reminded me of a human, but a little bit different", follow_id="d44"),
             "d44": Storypart(id="d44", content_type="storypart", content="I decided to follow the footprints, but the track continued on the roof.", follow_id="d45"),
             "d45": Storypart(id="d45", content_type="question", content=("{0}, what item could I use to get on the roof?","answer_roof_question", "ladder"), follow_id= {0: "d46a", 1: "d46b"}),
@@ -143,7 +162,13 @@ class Story:
             "d56": Storypart(id="d56", content_type="question", content=" My hamster is 10 years older than you {0}, how old is my hamster?","answer_hamster_question", "answer_age + 10", follow_id={0: "d57a", 1: "d57b"}), 
             "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually ({1}+10) years old.", follow_id="d58"),
             "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d58"),
-            "d58": Storypart(id="d58", content_type="storypart", content=" I hadn’t fed him for 2 days, maybe he was extremely hungry", follow_id="d59"),            
+
+            #HARDER question
+            #"d56x": Storypart(id="d56x", content_type="question", content=" My hamster is 3 times older than you {0}, how old is my hamster?","answer_hamster_question_hard", "answer_age * 3", follow_id={0: "d57xa", 1: "d57xb"}),
+            #"d57xa": Storypart(id="d57xa", content_type="storypart", content="Nope, my hamster is actually ({1}*3) years old.", follow_id="d58"),
+            #"d57xb": Storypart(id="d57xb", content_type="storypart", content="That’s correct!!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d58"),
+
+            "d58": Storypart(id="d58", content_type="storypart", content=" I hadn’t fed him for 2 days, maybe he was extremely hungry", follow_id="d59"),
             "d59": Storypart(id="d59", content_type="storypart", content=" I grabbed my hamster Hamtaro and looked at him",movement=Motion().grabbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d60"),            
             "d60": Storypart(id="d60", content_type="storypart", content=" Hamtaro was half the size of an actual banana, he couldn’t be the one who ate all my bananas", follow_id="d61"),            
             "d60": Storypart(id="d60", content_type="storypart", content=" Also the cage was closed when I arrived", follow_id="d61"),            
@@ -166,14 +191,14 @@ class Story:
             #CLOSING SCENE 
             "d71": Storypart(id="d71", content_type="storypart", content="Then it came to me", follow_id="d72"),           
             "d72": Storypart(id="d72", content_type="question", content="What place has monkeys, elephants and parakeets and could have been in town this whole week?","answer_circus_question", "circus", follow_id={0: "d73a", 1: "d73b"}), 
-            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
-            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
+            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
+            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
             #insert circus tune tutututututtuutututututututu
             "d74": Storypart(id="d74", content_type="question", content="Would you like to do a funky monkey dance with me?", follow_id={0: "d75a", 1: "d76"}), 
             
             #NO
             "d75a": Storypart(id="d75a", content_type="storypart", content="Alright, thank you for participating and being my help detectictive for today", follow_id="d75b"),           
-            "d75b": Storypart(id="d75b", content_type="storypart", content="See you next time”", movement=Motion().waving_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d75c"),           
+            "d75b": Storypart(id="d75b", content_type="storypart", content="See you next time, detective {0}", movement=Motion().waving_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d75c"),
             "d75c": NAO OUT
             #YES
             "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", movement=Motion().disco_dance, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d77"),
