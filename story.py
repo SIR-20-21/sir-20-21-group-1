@@ -70,7 +70,7 @@ class Story:
             "d15": Storypart(id="d15", content_type="storypart", content="Sssssssstttt", follow_id="d16"),
             "d16": Storypart(id="d16", content_type="storypart", content="I opened the door in one movement and looked inside.", follow_id="d17"),
 
-            #Should complete soundeffects also be a storypart?
+            #Should complete ssoundeffects also be a storypart?
             "d17": Storypart(id="d17", content_type="storypart", content="There was no one or nothing inside the bathroom, so I casually walked in.", follow_id="d18"),
             "d18": Storypart(id="d18", content_type="storypart", content="Maybe I just imagined the sounds.", follow_id="d19"),
 
