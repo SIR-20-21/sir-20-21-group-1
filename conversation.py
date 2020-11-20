@@ -86,7 +86,6 @@ class Conversation:
         if self.robot_present:
             self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
 
-
     def ask_question(self, question: str = None, intent: str = None, gesture = None, expected_answer: str = None) -> ReturnType:
         """
         Ask a question to the human and wait for an answer. Specified Dialogflow intent will be used to determine answer.
@@ -97,6 +96,7 @@ class Conversation:
         """
         while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < self.recognition_manager['max_attempts']:
             # ask question
+            # TODO choose question depending on the given age
             self.action_runner.load_waiting_action('say_animated', question)
             if (self.robot_present and gesture is not None):
                 self.action_runner.load_waiting_action('do_gesture', gesture)
@@ -130,6 +130,7 @@ class Conversation:
         :return:
         """
         self.action_runner.load_waiting_action('say_animated', text)
+
         if (self.robot_present and movement is not None):
             if movement_type == MOVEMENT_TYPE.POSTURE:
                 self.action_runner.load_waiting_action('go_to_posture', movement)
@@ -137,26 +138,28 @@ class Conversation:
                 self.action_runner.load_waiting_action('play_motion', movement)
             elif movement_type == MOVEMENT_TYPE.GESTURE:
                 self.action_runner.load_waiting_action('do_gesture', movement)
+                
         if self.robot_present and soundfile is not None:
             self.action_runner.load_waiting_action('play_audio', soundfile)
+
         self.action_runner.run_loaded_actions()
 
-    def tell_joke(self) -> None:  # , gesture: Gesture = None) -> None:
-        """
-        Tell a joke to the child
-        """
-        self.action_runner.load_waiting_action('play_motion', Gesture.knock_knock)
-        self.action_runner.load_waiting_action('say', 'Knock Knock')
-        self.action_runner.run_loaded_actions()
-        self.action_runner.load_waiting_action('say', 'Figs')
-        self.action_runner.run_loaded_actions()
-        sleep(2)  # wait for the child to anwser
-        self.action_runner.load_waiting_action('say', 'Figs your doorbell, it is broken!')
-        self.action_runner.load_waiting_action('do_gesture', 'animations/Stand/Gestures/Explain_1')
-        self.action_runner.run_loaded_actions()
-        self.action_runner.load_waiting_action('say', 'Ha ha ha ha ha ha ha ha')
-        self.action_runner.load_waiting_action('do_gesture', 'animations/Stand/Emotions/Positive/Happy_4')
-        self.action_runner.run_loaded_actions()
+    # def tell_joke(self) -> None:  # , gesture: Gesture = None) -> None:
+    #     """
+    #     Tell a joke to the child
+    #     """
+    #     self.action_runner.load_waiting_action('play_motion', Gesture.knock_knock)
+    #     self.action_runner.load_waiting_action('say', 'Knock Knock')
+    #     self.action_runner.run_loaded_actions()
+    #     self.action_runner.load_waiting_action('say', 'Figs')
+    #     self.action_runner.run_loaded_actions()
+    #     sleep(2)  # wait for the child to anwser
+    #     self.action_runner.load_waiting_action('say', 'Figs your doorbell, it is broken!')
+    #     self.action_runner.load_waiting_action('do_gesture', 'animations/Stand/Gestures/Explain_1')
+    #     self.action_runner.run_loaded_actions()
+    #     self.action_runner.load_waiting_action('say', 'Ha ha ha ha ha ha ha ha')
+    #     self.action_runner.load_waiting_action('do_gesture', 'animations/Stand/Emotions/Positive/Happy_4')
+    #     self.action_runner.run_loaded_actions()
 
     def on_intent(self, detection_result: DetectionResult = None) -> None:
         """

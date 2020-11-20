@@ -42,7 +42,11 @@ class Storyteller:
 
             if part.type == "question":
                 question, intent, expected_answer = part.content
-                res = self.conversation.ask_question(question=question, intent=intent, expected_answer=expected_answer)
+                res = self.conversation.ask_question(question=Storypart.format(question, user_model=self.conversation.user_model, id=part.id),
+                                                     intent=Storypart.format(
+                                                         intent, user_model=self.conversation.user_model, story_part_id="intent_" + part.id),
+                                                     expected_answer=Storypart.format(expected_answer, user_model=self.conversation.user_model,
+                                                                                      id="answer_" + part.id))
                 if res == ReturnType.STOP:
                     break
                 elif res == ReturnType.MAX_ATTEMPTS:
@@ -51,13 +55,16 @@ class Storyteller:
                     # TODO ask for repetetion or ending through fist bump
                     # res = self.conversation.ask_question(question, intent)
                     last_choice = self.conversation.current_choice
-                    self.sic.subscribe_touch_listener('HandRightBackTouched', lambda : self.conversation.set_current_choice(0))
-                    self.sic.subscribe_touch_listener('HandLeftBackTouched', lambda : self.conversation.set_current_choice(1))   
-                    self.conversation.request_choice("To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
+                    self.sic.subscribe_touch_listener(
+                        'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
+                    self.sic.subscribe_touch_listener(
+                        'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                    self.conversation.request_choice(
+                        "To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
                     while (last_choice == self.conversation.current_choice):
                         pass
                     if last_choice == 0:
-                        # repeat
+                        # TODO implement repetition
                         pass
                     elif last_choice == 1:
                         break
@@ -68,7 +75,6 @@ class Storyteller:
                         branch_option = 1
                     else:
                         branch_option = None
-                
 
             elif part.type == "storypart":
                 storypart = part.content
@@ -78,10 +84,13 @@ class Storyteller:
             elif part.type == "choice":
                 last_choice = self.conversation.current_choice
                 storypart = part.content
-                
-                self.sic.subscribe_touch_listener('HandRightBackTouched', lambda : self.conversation.set_current_choice(0))
-                self.sic.subscribe_touch_listener('HandLeftBackTouched', lambda : self.conversation.set_current_choice(1))
-                self.conversation.request_choice(question=Storypart.format(storypart, self.conversation.user_model, part.id))
+
+                self.sic.subscribe_touch_listener(
+                    'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
+                self.sic.subscribe_touch_listener(
+                    'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                self.conversation.request_choice(question=Storypart.format(
+                    storypart, self.conversation.user_model, part.id))
                 while (last_choice == self.conversation.current_choice):
                     pass
                 choice = self.conversation.current_choice
