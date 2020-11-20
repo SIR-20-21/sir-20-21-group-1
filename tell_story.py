@@ -95,6 +95,19 @@ class Storyteller:
                     pass
                 choice = self.conversation.current_choice
 
+            elif part.type == "highfive":
+                self.conversation.request_hivefive(part.content)
+                
+                self.sic.subscribe_touch_listener(
+                    'HandLeftLeftTouched', self.conversation.detect_highfive)
+                self.sic.subscribe_touch_listener(
+                    'HandLeftRightTouched', self.conversation.detect_highfive)
+
+                while (self.conversation.current_choice != 1):
+                    pass
+
+
+
         self.conversation.end_conversation()
         self.sic.stop()
 

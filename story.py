@@ -47,7 +47,7 @@ class Story:
             "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
 
             # TODO This will probably be an eventlistener or something, do we need to create an separate content_type for it?
-            "d9": Storypart(id="d9", content_type="storypart", content="Give me a high five!", movement=Motion().left_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d10"),
+            "d9": Storypart(id="d9", content_type="highfive", content="Give me a high five!", follow_id="d10"),
             # TODO Do we want the thumping and trumpet sound here already?
             "d10": Storypart(id="d10", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound and on my right I heard something that sounded like a trumpet", follow_id="d11"),
 
@@ -79,6 +79,7 @@ class Story:
             "d22": Storypart(id="d22", content_type="question", content=("{0}, {1}","{0}", "{0}"), follow_id= {0: "d23a", 1: "d23b"}),
 
             #maybe add interaction momement with touching NAO's hands?
+            # TODO if the highfive works, insert one here
             
             "d23a": Storypart(id="d23a", content_type="storypart", content="No, unfortunately {0} is not correct. {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
             "d23b": Storypart(id="d23b", content_type="storypart", content="Yes, very good! {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),

@@ -67,6 +67,21 @@ class Conversation:
         if self.robot_present:
             self.action_runner.run_waiting_action('rest')
 
+    def request_highfive(self, text):
+        self.action_runner.load_waiting_action('say_animated', text)
+        if self.robot_present:
+            self.current_choice = 0
+            self.action_runner.load_waiting_action('play_motion', Motion().left_arm_highfive)
+        else:
+            self.current_choice = 1
+    
+        self.action_runner.run_loaded_actions()
+
+    def detect_highfive(self):
+        self.current_choice = 1
+        if self.robot_present:
+            self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
+            
     def request_choice(self, question: str = None, gesture = None):
         self.action_runner.load_waiting_action('say_animated', question)
         if (self.robot_present and gesture is not None):
