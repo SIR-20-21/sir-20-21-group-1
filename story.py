@@ -58,7 +58,7 @@ class Story:
             "d13": Storypart(id="d13", content_type="storypart", content="“I took out my magnifying glass, which I always have in my pocket for such occasions. Leaning close to the floor, I could see enormous footprints going all the way to my bathroom. Curious. I made my way to the bathroom, where I thought I heard rustling and water continuously dripping on the bathroom tiles.", follow_id="d14"),
             "d14": Storypart(id="d14", content_type="storypart", content="I crept quietly towards the bathroom door, trying not to make a sound.", follow_id="d15"),
 
-            # TODO This should be a sound effect
+            # TODO This 'sssshhhh' should be a sound effect
             "d15": Storypart(id="d15", content_type="storypart", content="Sssssssstttt", follow_id="d16"),
             "d16": Storypart(id="d16", content_type="storypart", content="I opened the door in one movement and looked inside.", follow_id="d17"),
 
