@@ -74,7 +74,9 @@ class Story:
             #BATHROOM SCENE STARTS HERE
             # TODO do we have this face wash movement already?
             "d19": Storypart(id="d19", content_type="storypart", content="In the bathroom I threw some water in my face to refresh myself.", movement=Motion().face_wash_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d20"),
-            # TODO record elephant movement
+            # Tis is currently an empty say string
+            "d19a": Storypart(id="d19a", content_type="storypart", content=" ", movement="elephant_motion-4d89bf/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d20"),
+
             "d20": Storypart(id="d20", content_type="storypart", content="While I was looking in the mirror I noticed that there was an elephant standing in the shower.", movement=Motion().elephant_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d21"),
             "d21": Storypart(id="d21", content_type="storypart", content="The elephant could be the one that ate all my bananas, but then I remembered that elephants don’t eat bananas.", follow_id="d22"),
             "d22": Storypart(id="d22", content_type="question", content=("{0}, {1}","{0}", "{0}"), follow_id= {0: "d23a", 1: "d23b"}),
@@ -131,12 +133,10 @@ class Story:
             "d52": Storypart(id="d52", content_type="storypart", content="I climbed off the ladder and quickly entered my house and went upstairs to my room.", movement=Motion().climbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d53"),
             #END OF GARDEN SCENE 
             
-            #START ROOM SCENE 
+            #START ROOM SCENE
             "d53": Storypart(id="d53", content_type="storypart", content="I entered my own room, where I was sleeping just an hour ago", soundfile="sounds/sleep.wav", follow_id="d54"),
-            "d54": Storypart(id="d54", content_type="storypart", content="I walked straight to my hamsters cage to see how Hamtaro was doing", follow_id="d55"), 
-
-            #Insert MOUSE SOUNDS
-            "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement=Motion().mouse_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d56"),
+            "d54": Storypart(id="d54", content_type="storypart", content="I walked straight to my hamsters cage to see how Hamtaro was doing", follow_id="d55"),
+            "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement="mouse_motion-3bf9b6/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d56"),
             "d56": Storypart(id="d56", content_type="question", content=("{0}","answer_hamster_question", "{0}"), follow_id={0: "d57a", 1: "d57b"}), 
             "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually {1} years old.", follow_id="d58"),
             "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d58"),
@@ -157,8 +157,7 @@ class Story:
             "d65": Storypart(id="d65", content_type="storypart", content="When I arrived at the attic, I smelled something weird, so I entered carefully", movement=Motion().looking_around_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d66"),
             "d66": Storypart(id="d66", content_type="storypart", content="The first thing I had to do was to find the light switch, since the attic was completely dark and I didn’t want to slip on a banana again", follow_id="d67"),
             "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
-            # TODO insert monkey sounds
-            "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d69"),
+            "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement='gorilla_motion-3ce914', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d69"),
             "d69": Storypart(id="d69", content_type="storypart", content="The monkey was dancing, while juggling with three bananas.", movement=Motion().jugling_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d70"),
             "d70": Storypart(id="d70", content_type="storypart", content="{0}, I think we found the thief who stole my breakfast!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d71"),
           
