@@ -80,7 +80,7 @@ class Story:
             
             "d23a": Storypart(id="d23a", content_type="storypart", content="No, unfortunately {0} is not correct. {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
             "d23b": Storypart(id="d23b", content_type="storypart", content="Yes, very good! {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
-            "d24": Storypart(id="d24", content_type="storypart", content="Just to be sure, I asked the elephant if he wanted to have a banana, but he kindly refused", movement=Motion().refusing_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d25"),
+            "d24": Storypart(id="d24", content_type="storypart", content="Just to be sure, I asked the elephant if he wanted to have a banana, but he kindly refused", movement='animations/Stand/Gestures/No_8', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d25"),
             "d25": Storypart(id="d25", content_type="storypart", content=" I had enough information, so I went to another room to continue my investigation. Where shall we go now?", follow_id="d26"),
             # TODO maybe better say which arm is which option
             "d26": Storypart(id="d26", content_type="choice", content="Do you want to keep looking inside in some other rooms or go outside to investigate there?", follow_id={0: "d27", 1: "d28"}), 
@@ -133,7 +133,7 @@ class Story:
             "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement="mouse_motion-3bf9b6/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d56"),
             "d56": Storypart(id="d56", content_type="question", content=("{0}","answer_hamster_question", "{0}"), follow_id={0: "d57a", 1: "d57b"}), 
             "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually {1} years old.", follow_id="d58"),
-            "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d58"),
+            "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement="animations/Stand/Exclamation/NAO/Right_Strong_EXC_03", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d58"),
 
 
             "d58": Storypart(id="d58", content_type="storypart", content="I hadn’t fed him for 2 days, maybe he was extremely hungry", follow_id="d59"),
