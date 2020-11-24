@@ -37,11 +37,10 @@ class Story:
             "d5": Storypart(id="d5", content_type="storypart", content="Ouch! I looked around in chock, I certainly did not put this banana here.", follow_id="d5a"),
             "d5a": Storypart(id="d5a", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d6"),
             "d6": Storypart(id="d6", content_type="storypart", content="I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", soundfile='sounds/detective.wav', follow_id="d7"),
-            
             # TODO insert thrilling detective sound
             
             # TODO insert stair gesture below
-            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs", movement=None, movement_type=None, follow_id="d7a"),
+            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs", movement=Motion().walking, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d7a"),
             "d7a": Storypart(id="d7a", content_type="question", content=("{0} How many steps does my staircase have in total?", "answer_math_question", "24"), follow_id={0: "d8a", 1: "d8b"}),
             "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 24 steps. But good try, though!", follow_id="d9"),
             "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
@@ -55,7 +54,7 @@ class Story:
             "d11": Storypart(id="d11", content_type="choice", content="Where would you have gone? Left or right?", follow_id={0: "d12a", 1: "d12b"}),
             "d12a": Storypart(id="d12a", content_type="storypart", content="Yes very good, that is where I went as well!", follow_id="d13"),
             "d12b": Storypart(id="d12b", content_type="storypart", content="Very good thinking, but I chose to go to the right and investigate the trumpet sounds.", follow_id="d13"),
-            # TODO insert TIPTOE movement?
+            # TODO insert TIPTOE movement? (is this even possible?)
             "d13": Storypart(id="d13", content_type="storypart", content="“I took out my magnifying glass, which I always have in my pocket for such occasions. Leaning close to the floor, I could see enormous footprints going all the way to my bathroom. Curious. I made my way to the bathroom, where I thought I heard rustling and water continuously dripping on the bathroom tiles.", soundfile="sounds/water.wav", follow_id="d14"),
             "d14": Storypart(id="d14", content_type="storypart", content="I crept quietly towards the bathroom door, trying not to make a sound.", soundfile="sounds/tiptoe.wav", follow_id="d15"),
 
@@ -67,17 +66,12 @@ class Story:
             "d16a": Storypart(id="d16a", content_type="storypart", content="", soundfile="sounds/scary.wav", follow_id="d17"),
             
             #Should complete soundeffects also be a storypart?
-            # TODO insert walking gesture
-            "d17": Storypart(id="d17", content_type="storypart", content="The bathroom was empty, so I casually walked in.", movement=None, movement_type=None, follow_id="d18"),
+            "d17": Storypart(id="d17", content_type="storypart", content="The bathroom was empty, so I casually walked in.", movement=Motion().walking, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d18"),
             "d18": Storypart(id="d18", content_type="storypart", content="Maybe I just imagined the sounds.", follow_id="d19"),
 
             #BATHROOM SCENE STARTS HERE
-            # TODO do we have this face wash movement already?
-            "d19": Storypart(id="d19", content_type="storypart", content="In the bathroom I threw some water in my face to refresh myself.", movement=Motion().face_wash_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d20"),
-            # Tis is currently an empty say string
-            "d19a": Storypart(id="d19a", content_type="storypart", content=" ", movement="elephant_motion-4d89bf/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d20"),
-
-            "d20": Storypart(id="d20", content_type="storypart", content="While I was looking in the mirror I noticed that there was an elephant standing in the shower.", movement=Motion().elephant_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d21"),
+            "d19": Storypart(id="d19", content_type="storypart", content="In the bathroom I threw some water in my face to refresh myself.", movement=Motion().face_wash, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d20"),
+            "d20": Storypart(id="d20", content_type="storypart", content="While I was looking in the mirror I noticed that there was an elephant standing in the shower.", movement="elephant_motion-4d89bf/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d21"),
             "d21": Storypart(id="d21", content_type="storypart", content="The elephant could be the one that ate all my bananas, but then I remembered that elephants don’t eat bananas.", follow_id="d22"),
             "d22": Storypart(id="d22", content_type="question", content=("{0}, {1}","{0}", "{0}"), follow_id= {0: "d23a", 1: "d23b"}),
 
@@ -171,7 +165,7 @@ class Story:
             
             #YES
             # TODO insert disco sound
-            "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", soundfile=None, movement=Motion().disco_dance, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d75a"),
+            "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", soundfile=None, movement='disco_dance-eb402b/behavior_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d75a"),
 
             #NO
             "d75a": Storypart(id="d75a", content_type="storypart", content="Alright, thank you for participating and being my help detectictive for today", follow_id="d75b"),           

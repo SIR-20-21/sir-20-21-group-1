@@ -14,7 +14,7 @@ class Example:
     def run(self) -> None:
         self.sic.start()
 
-        joints = ['RArm']
+        joints = ['RArm', 'LArm']
         self.action_runner.load_waiting_action('set_language', 'en-US')
         self.action_runner.load_waiting_action('wake_up')
         self.action_runner.run_loaded_actions()
@@ -39,6 +39,7 @@ class Example:
         self.sic.stop()
 
     def retrieve_recorded_motion(self, motion) -> None:
+        print(motion)
         self.motion = motion
 
 
