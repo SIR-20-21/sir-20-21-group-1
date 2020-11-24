@@ -3,7 +3,7 @@ from social_interaction_cloud.action import ActionRunner
 from social_interaction_cloud.basic_connector import BasicSICConnector, RobotPosture
 from social_interaction_cloud.detection_result_pb2 import DetectionResult
 from enum import Enum
-
+import random
 
 class ReturnType(Enum):
     MAX_ATTEMPTS = 0
@@ -45,7 +45,7 @@ class Conversation:
         self.recognition_manager = {
             'attempt_success': False, 'attempt_number': 0, 'max_attempts': 2, 'intent_result': -1}
         self.robot_present = robot_present
-        self.current_branch_option = ""
+        self.current_choice = ""
 
     def introduce(self) -> None:
         """
@@ -55,7 +55,9 @@ class Conversation:
         if self.robot_present:
             self.action_runner.load_waiting_action('wake_up')
         self.action_runner.run_loaded_actions()
-        self.action_runner.run_waiting_action('say_animated', 'Hello, world! I am Nao.')
+        self.action_runner.run_waiting_action('say_animated', 'Hello! I am Nao.')
+        # self.ask_question(question="What is your name?", intent="answer_name")
+        # self.ask_question(question="Nice to meet you " + str(self.user_model["name"]) + ", how old are you?", intent="answer_age")
 
     def end_conversation(self) -> None:
         """
@@ -144,7 +146,7 @@ class Conversation:
         :param movement: movement to be made while the storypart is being told (str)
         :return:
         """
-        self.action_runner.load_waiting_action('say_animated', text)
+        self.action_runner.load_waiting_action('say_animated', "\\rspd=50\\" + text)
 
         if (self.robot_present and movement is not None):
             if movement_type == MOVEMENT_TYPE.POSTURE:
@@ -176,6 +178,30 @@ class Conversation:
     #     self.action_runner.load_waiting_action('do_gesture', 'animations/Stand/Emotions/Positive/Happy_4')
     #     self.action_runner.run_loaded_actions()
 
+    def get_joke(self):
+        with open('Jokes.txt', "r",encoding='utf-8') as jokefile:
+            all_jokes = jokefile.readlines()
+            found_joke = False
+            full_joke = []
+            for attempt in range(0, 5):  # Make sure joke number exists
+                selected_joke = str(random.randint(0, 267))  # Amount of jokes
+                for line in all_jokes:
+                    if selected_joke in line:
+                        question = (line.split('. ')[1]).rstrip()  # Capture joke and remove other characters
+                        full_joke.append(question)  # Add joke to list
+                        found_joke = True
+                    if found_joke:
+                        if line == '\n':
+                            return full_joke  # Empty line indicates joke end
+                            break
+                        elif not line.strip():
+                            return full_joke
+                            break
+                        if question not in line:
+                            full_joke.append(line.rstrip())  # Add lines after question
+                if found_joke:
+                    break
+
     def on_intent(self, detection_result: DetectionResult = None) -> None:
         """
         Callback function executed after a Dialogflow intent determining how to react on a given answer by the human.
@@ -200,9 +226,14 @@ class Conversation:
                 self.recognition_manager['intent_result'] = 1
 
             elif detection_result.intent == 'answer_math_question':
-                print(detection_result)
+                # print(detection_result)
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = str(int(detection_result.parameters['number'].number_value))
+
+            elif detection_result.intent == 'joke_story_decision':
+                self.recognition_manager['attempt_success'] = True
+                self.recognition_manager['intent_result'] = 1
+                self.current_choice = detection_result.parameters["path"].string_value
 
             elif detection_result.intent == "stop":
                 # self.end_conversation()
@@ -220,4 +251,4 @@ class Conversation:
         :return:
         """
         self.recognition_manager.update(
-            {'attempt_success': False, 'attempt_number': 0})
+            {'attempt_success': False, 'attempt_number': 0, 'intent_result': -1})
