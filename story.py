@@ -36,7 +36,7 @@ class Story:
             "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
             "d5": Storypart(id="d5", content_type="storypart", content="Ouch! I looked around in chock, I certainly did not put this banana here.", follow_id="d5a"),
             "d5a": Storypart(id="d5a", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d6"),
-            "d6": Storypart(id="d6", content_type="storypart", content="I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", follow_id="d7"),
+            "d6": Storypart(id="d6", content_type="storypart", content="I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", soundfile='sounds/detective.wav', follow_id="d7"),
             
             # TODO insert thrilling detective sound
             
@@ -49,21 +49,22 @@ class Story:
             # TODO This will probably be an eventlistener or something, do we need to create an separate content_type for it?
             "d9": Storypart(id="d9", content_type="highfive", content="Give me a high five!", follow_id="d10"),
             # TODO Do we want the thumping and trumpet sound here already?
-            "d10": Storypart(id="d10", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound and on my right I heard something that sounded like a trumpet", follow_id="d11"),
+            "d10a": Storypart(id="d10a", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound.", soundfile='sounds/thumping.wav', follow_id="d10b"),
+            "d10b": Storypart(id="d10b", content_type="storypart", content="and on my right I heard something that sounded like a trumpet", soundfile="sounds/trumpet.wav", follow_id="d11"),
 
             "d11": Storypart(id="d11", content_type="choice", content="Where would you have gone? Left or right?", follow_id={0: "d12a", 1: "d12b"}),
             "d12a": Storypart(id="d12a", content_type="storypart", content="Yes very good, that is where I went as well!", follow_id="d13"),
             "d12b": Storypart(id="d12b", content_type="storypart", content="Very good thinking, but I chose to go to the right and investigate the trumpet sounds.", follow_id="d13"),
-            # TODO water dropping sound?
-            "d13": Storypart(id="d13", content_type="storypart", content="“I took out my magnifying glass, which I always have in my pocket for such occasions. Leaning close to the floor, I could see enormous footprints going all the way to my bathroom. Curious. I made my way to the bathroom, where I thought I heard rustling and water continuously dripping on the bathroom tiles.", follow_id="d14"),
-            "d14": Storypart(id="d14", content_type="storypart", content="I crept quietly towards the bathroom door, trying not to make a sound.", follow_id="d15"),
+            # TODO insert TIPTOE movement?
+            "d13": Storypart(id="d13", content_type="storypart", content="“I took out my magnifying glass, which I always have in my pocket for such occasions. Leaning close to the floor, I could see enormous footprints going all the way to my bathroom. Curious. I made my way to the bathroom, where I thought I heard rustling and water continuously dripping on the bathroom tiles.", soundfile="sounds/water.wav", follow_id="d14"),
+            "d14": Storypart(id="d14", content_type="storypart", content="I crept quietly towards the bathroom door, trying not to make a sound.", soundfile="sounds/tiptoe.wav", follow_id="d15"),
 
             # TODO This 'sssshhhh' should be a sound effect
-            "d15": Storypart(id="d15", content_type="storypart", content="Sssssssstttt", follow_id="d16"),
+            "d15": Storypart(id="d15", content_type="storypart", content="Sssssssstttt", soundfile="sounds/sssshh.wav", follow_id="d16"),
             "d16": Storypart(id="d16", content_type="storypart", content="I opened the door in one movement and looked inside.", follow_id="d17"),
 
             # TODO insert scary sounds
-            "d16a": Storypart(id="d16a", content_type="storypart", content="", soundfile=None, follow_id="d17"),
+            "d16a": Storypart(id="d16a", content_type="storypart", content="", soundfile="sounds/scary.wav", follow_id="d17"),
             
             #Should complete soundeffects also be a storypart?
             # TODO insert walking gesture
@@ -108,7 +109,7 @@ class Story:
             #WALK-IN CLOSET SCENE ENDS HERE, GO TO ROOM SCENE D53
             
             #GARDEN SCENE STARTS HERE, insert birds sounds
-            "d38": Storypart(id="d38", content_type="storypart", content="When I stepped into the garden I heard a lot of birds.", follow_id="d39"),
+            "d38": Storypart(id="d38", content_type="storypart", content="When I stepped into the garden I heard a lot of birds.", soundfile="sounds/birds.wav", follow_id="d39"),
             "d39": Storypart(id="d39", content_type="storypart", content="In the middle of the garden there was a tree full of 40 parakeets", movement=Motion().flying_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d40"),            
             "d40": Storypart(id="d40", content_type="storypart", content="Half of the parakeets were green and the other half was red.", follow_id="d41"),
             "d41": Storypart(id="d41", content_type="question", content=("{0}, {1}", "answer_easy_parakeets", "{0}"), follow_id={0: "d42a", 1: "d42b"}),
@@ -131,10 +132,11 @@ class Story:
             #END OF GARDEN SCENE 
             
             #START ROOM SCENE 
-            "d53": Storypart(id="d53", content_type="storypart", content="I entered my own room, where I was sleeping just an hour ago", follow_id="d54"),            
+            "d53": Storypart(id="d53", content_type="storypart", content="I entered my own room, where I was sleeping just an hour ago", soundfile="sounds/sleep.wav", follow_id="d54"),
             "d54": Storypart(id="d54", content_type="storypart", content="I walked straight to my hamsters cage to see how Hamtaro was doing", follow_id="d55"), 
+
             #Insert MOUSE SOUNDS
-            "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", movement=Motion().mouse_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d56"),  
+            "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement=Motion().mouse_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d56"),
             "d56": Storypart(id="d56", content_type="question", content=("{0}","answer_hamster_question", "{0}"), follow_id={0: "d57a", 1: "d57b"}), 
             "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually {1} years old.", follow_id="d58"),
             "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d58"),
@@ -156,15 +158,15 @@ class Story:
             "d66": Storypart(id="d66", content_type="storypart", content="The first thing I had to do was to find the light switch, since the attic was completely dark and I didn’t want to slip on a banana again", follow_id="d67"),
             "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
             # TODO insert monkey sounds
-            "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d69"),
+            "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d69"),
             "d69": Storypart(id="d69", content_type="storypart", content="The monkey was dancing, while juggling with three bananas.", movement=Motion().jugling_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d70"),
             "d70": Storypart(id="d70", content_type="storypart", content="{0}, I think we found the thief who stole my breakfast!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d71"),
           
             #CLOSING SCENE 
             "d71": Storypart(id="d71", content_type="storypart", content="Then it came to me", follow_id="d72"),           
             "d72": Storypart(id="d72", content_type="question", content=("What place has monkeys, elephants and parakeets and could have been in town this whole week?","answer_circus_question", "circus"), follow_id={0: "d73a", 1: "d73b"}), 
-            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
-            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
+            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!!", soundfile="sounds/circus.wav", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
+            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!!", soundfile="sounds/circus.wav", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
             # TODO insert circus tune tutututututtuutututututututu
             "d74": Storypart(id="d74", content_type="question", content="Would you like to do a funky monkey dance with me?", follow_id={0: "d75a", 1: "d76"}), 
             
