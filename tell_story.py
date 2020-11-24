@@ -17,7 +17,7 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic, robot_present=False)
+        self.conversation = Conversation(self.sic, robot_present=True)
         self.story = Story()
 
         # self.tts = ALProxy("ALTextToSpeech", server_ip, 9559)
@@ -42,11 +42,11 @@ class Storyteller:
 
             if part.type == "question":
                 question, intent, expected_answer = part.content
-                res = self.conversation.ask_question(question=Storypart.format(question, user_model=self.conversation.user_model, id=part.id),
+                res = self.conversation.ask_question(question=Storypart.format(question, user_model=self.conversation.user_model, story_part_id=part.id),
                                                      intent=Storypart.format(
                                                          intent, user_model=self.conversation.user_model, story_part_id="intent_" + part.id),
                                                      expected_answer=Storypart.format(expected_answer, user_model=self.conversation.user_model,
-                                                                                      id="answer_" + part.id))
+                                                                                      story_part_id="answer_" + part.id))
                 if res == ReturnType.STOP:
                     break
                 elif res == ReturnType.MAX_ATTEMPTS:
@@ -96,7 +96,7 @@ class Storyteller:
                 choice = self.conversation.current_choice
 
             elif part.type == "highfive":
-                self.conversation.request_hivefive(part.content)
+                self.conversation.request_highfive(part.content)
                 
                 self.sic.subscribe_touch_listener(
                     'HandLeftLeftTouched', self.conversation.detect_highfive)
