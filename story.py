@@ -37,11 +37,10 @@ class Story:
             "d5": Storypart(id="d5", content_type="storypart", content="Ouch! I looked around in chock, I certainly did not put this banana here.", follow_id="d5a"),
             "d5a": Storypart(id="d5a", content_type="storypart", content="", movement=RobotPosture.STAND, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d6"),
             "d6": Storypart(id="d6", content_type="storypart", content="I slipped on my detective trench coat over my blue striped pyjamas, put on my fedora, and began my investigation.", soundfile='sounds/detective.wav', follow_id="d7"),
-            
             # TODO insert thrilling detective sound
             
             # TODO insert stair gesture below
-            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs", movement=None, movement_type=None, follow_id="d7a"),
+            "d7": Storypart(id="d7", content_type="storypart", content="First, I wanted to check the rooms upstairs. I flew up the stairs", movement=Motion().walking, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d7a"),
             "d7a": Storypart(id="d7a", content_type="question", content=("{0} How many steps does my staircase have in total?", "answer_math_question", "24"), follow_id={0: "d8a", 1: "d8b"}),
             "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 24 steps. But good try, though!", follow_id="d9"),
             "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
@@ -55,7 +54,7 @@ class Story:
             "d11": Storypart(id="d11", content_type="choice", content="Where would you have gone? Left or right?", follow_id={0: "d12a", 1: "d12b"}),
             "d12a": Storypart(id="d12a", content_type="storypart", content="Yes very good, that is where I went as well!", follow_id="d13"),
             "d12b": Storypart(id="d12b", content_type="storypart", content="Very good thinking, but I chose to go to the right and investigate the trumpet sounds.", follow_id="d13"),
-            # TODO insert TIPTOE movement?
+            # TODO insert TIPTOE movement? (is this even possible?)
             "d13": Storypart(id="d13", content_type="storypart", content="“I took out my magnifying glass, which I always have in my pocket for such occasions. Leaning close to the floor, I could see enormous footprints going all the way to my bathroom. Curious. I made my way to the bathroom, where I thought I heard rustling and water continuously dripping on the bathroom tiles.", soundfile="sounds/water.wav", follow_id="d14"),
             "d14": Storypart(id="d14", content_type="storypart", content="I crept quietly towards the bathroom door, trying not to make a sound.", soundfile="sounds/tiptoe.wav", follow_id="d15"),
 
@@ -67,15 +66,12 @@ class Story:
             "d16a": Storypart(id="d16a", content_type="storypart", content="", soundfile="sounds/scary.wav", follow_id="d17"),
             
             #Should complete soundeffects also be a storypart?
-            # TODO insert walking gesture
-            "d17": Storypart(id="d17", content_type="storypart", content="The bathroom was empty, so I casually walked in.", movement=None, movement_type=None, follow_id="d18"),
+            "d17": Storypart(id="d17", content_type="storypart", content="The bathroom was empty, so I casually walked in.", movement=Motion().walking, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d18"),
             "d18": Storypart(id="d18", content_type="storypart", content="Maybe I just imagined the sounds.", follow_id="d19"),
 
             #BATHROOM SCENE STARTS HERE
-            # TODO do we have this face wash movement already?
-            "d19": Storypart(id="d19", content_type="storypart", content="In the bathroom I threw some water in my face to refresh myself.", movement=Motion().face_wash_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d20"),
-            # TODO record elephant movement
-            "d20": Storypart(id="d20", content_type="storypart", content="While I was looking in the mirror I noticed that there was an elephant standing in the shower.", movement=Motion().elephant_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d21"),
+            "d19": Storypart(id="d19", content_type="storypart", content="In the bathroom I threw some water in my face to refresh myself.", movement=Motion().face_wash, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d20"),
+            "d20": Storypart(id="d20", content_type="storypart", content="While I was looking in the mirror I noticed that there was an elephant standing in the shower.", movement="elephant_motion-4d89bf/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d21"),
             "d21": Storypart(id="d21", content_type="storypart", content="The elephant could be the one that ate all my bananas, but then I remembered that elephants don’t eat bananas.", follow_id="d22"),
             "d22": Storypart(id="d22", content_type="question", content=("{0}, {1}","{0}", "{0}"), follow_id= {0: "d23a", 1: "d23b"}),
 
@@ -84,7 +80,7 @@ class Story:
             
             "d23a": Storypart(id="d23a", content_type="storypart", content="No, unfortunately {0} is not correct. {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
             "d23b": Storypart(id="d23b", content_type="storypart", content="Yes, very good! {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
-            "d24": Storypart(id="d24", content_type="storypart", content="Just to be sure, I asked the elephant if he wanted to have a banana, but he kindly refused", movement=Motion().refusing_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d25"),
+            "d24": Storypart(id="d24", content_type="storypart", content="Just to be sure, I asked the elephant if he wanted to have a banana, but he kindly refused", movement='animations/Stand/Gestures/No_8', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d25"),
             "d25": Storypart(id="d25", content_type="storypart", content=" I had enough information, so I went to another room to continue my investigation. Where shall we go now?", follow_id="d26"),
             # TODO maybe better say which arm is which option
             "d26": Storypart(id="d26", content_type="choice", content="Do you want to keep looking inside in some other rooms or go outside to investigate there?", follow_id={0: "d27", 1: "d28"}), 
@@ -131,22 +127,20 @@ class Story:
             "d52": Storypart(id="d52", content_type="storypart", content="I climbed off the ladder and quickly entered my house and went upstairs to my room.", movement=Motion().climbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d53"),
             #END OF GARDEN SCENE 
             
-            #START ROOM SCENE 
+            #START ROOM SCENE
             "d53": Storypart(id="d53", content_type="storypart", content="I entered my own room, where I was sleeping just an hour ago", soundfile="sounds/sleep.wav", follow_id="d54"),
-            "d54": Storypart(id="d54", content_type="storypart", content="I walked straight to my hamsters cage to see how Hamtaro was doing", follow_id="d55"), 
-
-            #Insert MOUSE SOUNDS
-            "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement=Motion().mouse_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d56"),
+            "d54": Storypart(id="d54", content_type="storypart", content="I walked straight to my hamsters cage to see how Hamtaro was doing", follow_id="d55"),
+            "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement="mouse_motion-3bf9b6/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d56"),
             "d56": Storypart(id="d56", content_type="question", content=("{0}","answer_hamster_question", "{0}"), follow_id={0: "d57a", 1: "d57b"}), 
             "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually {1} years old.", follow_id="d58"),
-            "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d58"),
+            "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement="animations/Stand/Exclamation/NAO/Right_Strong_EXC_03", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d58"),
 
 
             "d58": Storypart(id="d58", content_type="storypart", content="I hadn’t fed him for 2 days, maybe he was extremely hungry", follow_id="d59"),
-            "d59": Storypart(id="d59", content_type="storypart", content="I grabbed my hamster Hamtaro and looked at him",movement=Motion().grabbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d60"),            
-            "d60": Storypart(id="d60", content_type="storypart", content="Hamtaro was half the size of an actual banana, he couldn’t be the one who ate all my bananas", follow_id="d61"),            
-            "d60": Storypart(id="d60", content_type="storypart", content="Also the cage was closed when I arrived", follow_id="d61"),            
-            "d60": Storypart(id="d60", content_type="storypart", content="I gave Hamtaro something to eat and after looking further around in my room I detected nothing suspicious", follow_id="d61"),            
+            "d59": Storypart(id="d59", content_type="storypart", content="I grabbed my hamster Hamtaro and looked at him",movement=Motion().grabbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d60a"),
+            "d60a": Storypart(id="d60a", content_type="storypart", content="Hamtaro was half the size of an actual banana, he couldn’t be the one who ate all my bananas", follow_id="d60b"),
+            "d60b": Storypart(id="d60b", content_type="storypart", content="Also the cage was closed when I arrived", follow_id="d60c"),
+            "d60c": Storypart(id="d60c", content_type="storypart", content="I gave Hamtaro something to eat and after looking further around in my room I detected nothing suspicious", follow_id="d61"),
             #END ROOM SCENE
         
             #START ATTIC SCENE 
@@ -156,9 +150,8 @@ class Story:
             "d64": Storypart(id="d64", content_type="storypart", content="On the stairs to the attic I found again a banana peel, but this time I was more careful.", follow_id="d65"),
             "d65": Storypart(id="d65", content_type="storypart", content="When I arrived at the attic, I smelled something weird, so I entered carefully", movement=Motion().looking_around_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d66"),
             "d66": Storypart(id="d66", content_type="storypart", content="The first thing I had to do was to find the light switch, since the attic was completely dark and I didn’t want to slip on a banana again", follow_id="d67"),
-            "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
-            # TODO insert monkey sounds
-            "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d69"),
+            "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
+            "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement='gorilla_motion-3ce914', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d69"),
             "d69": Storypart(id="d69", content_type="storypart", content="The monkey was dancing, while juggling with three bananas.", movement=Motion().jugling_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d70"),
             "d70": Storypart(id="d70", content_type="storypart", content="{0}, I think we found the thief who stole my breakfast!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d71"),
           
@@ -172,11 +165,11 @@ class Story:
             
             #YES
             # TODO insert disco sound
-            "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", soundfile=None, movement=Motion().disco_dance, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d75a"),
+            "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", soundfile=None, movement='disco_dance-eb402b/behavior_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d75a"),
 
             #NO
             "d75a": Storypart(id="d75a", content_type="storypart", content="Alright, thank you for participating and being my help detectictive for today", follow_id="d75b"),           
-            "d75b": Storypart(id="d75b", content_type="storypart", content="See you next time, detective {0}", movement=Motion().waving_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="s1"),
+            "d75b": Storypart(id="d75b", content_type="storypart", content="See you next time, detective {0}", movement='animations/Stand/Gestures/Hey_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="s1"),
         }
         
         

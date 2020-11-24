@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="elephant_motion-4d89bf" installOnlyAtStartup="false" version="0.0.2">
+ <names>
+  <name lang="en_US">elephant_motion</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Do the elephant motion</description>
+ </descriptions>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>
