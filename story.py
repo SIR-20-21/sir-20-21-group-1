@@ -137,10 +137,10 @@ class Story:
 
 
             "d58": Storypart(id="d58", content_type="storypart", content="I hadn’t fed him for 2 days, maybe he was extremely hungry", follow_id="d59"),
-            "d59": Storypart(id="d59", content_type="storypart", content="I grabbed my hamster Hamtaro and looked at him",movement=Motion().grabbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d60"),            
-            "d60": Storypart(id="d60", content_type="storypart", content="Hamtaro was half the size of an actual banana, he couldn’t be the one who ate all my bananas", follow_id="d61"),            
-            "d60": Storypart(id="d60", content_type="storypart", content="Also the cage was closed when I arrived", follow_id="d61"),            
-            "d60": Storypart(id="d60", content_type="storypart", content="I gave Hamtaro something to eat and after looking further around in my room I detected nothing suspicious", follow_id="d61"),            
+            "d59": Storypart(id="d59", content_type="storypart", content="I grabbed my hamster Hamtaro and looked at him",movement=Motion().grabbing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d60a"),
+            "d60a": Storypart(id="d60a", content_type="storypart", content="Hamtaro was half the size of an actual banana, he couldn’t be the one who ate all my bananas", follow_id="d60b"),
+            "d60b": Storypart(id="d60b", content_type="storypart", content="Also the cage was closed when I arrived", follow_id="d60c"),
+            "d60c": Storypart(id="d60c", content_type="storypart", content="I gave Hamtaro something to eat and after looking further around in my room I detected nothing suspicious", follow_id="d61"),
             #END ROOM SCENE
         
             #START ATTIC SCENE 
