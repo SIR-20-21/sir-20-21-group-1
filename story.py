@@ -150,7 +150,7 @@ class Story:
             "d64": Storypart(id="d64", content_type="storypart", content="On the stairs to the attic I found again a banana peel, but this time I was more careful.", follow_id="d65"),
             "d65": Storypart(id="d65", content_type="storypart", content="When I arrived at the attic, I smelled something weird, so I entered carefully", movement=Motion().looking_around_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d66"),
             "d66": Storypart(id="d66", content_type="storypart", content="The first thing I had to do was to find the light switch, since the attic was completely dark and I didn’t want to slip on a banana again", follow_id="d67"),
-            "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
+            "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
             "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement='gorilla_motion-3ce914', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d69"),
             "d69": Storypart(id="d69", content_type="storypart", content="The monkey was dancing, while juggling with three bananas.", movement=Motion().jugling_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d70"),
             "d70": Storypart(id="d70", content_type="storypart", content="{0}, I think we found the thief who stole my breakfast!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d71"),
@@ -169,7 +169,7 @@ class Story:
 
             #NO
             "d75a": Storypart(id="d75a", content_type="storypart", content="Alright, thank you for participating and being my help detectictive for today", follow_id="d75b"),           
-            "d75b": Storypart(id="d75b", content_type="storypart", content="See you next time, detective {0}", movement=Motion().waving_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="s1"),
+            "d75b": Storypart(id="d75b", content_type="storypart", content="See you next time, detective {0}", movement='animations/Stand/Gestures/Hey_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="s1"),
         }
         
         
