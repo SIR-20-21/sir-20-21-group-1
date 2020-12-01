@@ -83,7 +83,7 @@ class Conversation:
 
     def request_highfive(self, text):
         self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
-        self.action_runner.load_waiting_action('say_animated', "\\rspd=" + str(self.speech_speed) + "\\" + text)
+        self.action_runner.load_waiting_action('say', "\\rspd=" + str(self.speech_speed) + "\\" + text)
         if self.robot_present:
             self.current_choice = 0
             self.action_runner.load_waiting_action('play_motion', Motion().backhand_left)
@@ -103,16 +103,19 @@ class Conversation:
 
     def request_choice(self, question: str = None, gesture = None):
         self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
-        self.action_runner.load_waiting_action('say_animated', "\\rspd=" + str(self.speech_speed) + "\\" + question)
+        if self.robot_present:
+            # self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STANDZERO, 50)
+            self.action_runner.load_waiting_action('play_motion', Motion().right_left)
+        self.action_runner.load_waiting_action('say', "\\rspd=" + str(self.speech_speed) + "\\" + question)
         # if (self.robot_present and gesture is not None):
         #     self.action_runner.load_waiting_action('do_gesture', gesture)
         # self.action_runner.run_loaded_actions()
 
         # lift arm to provide possibility to give fistbump/handshake
         
-        if self.robot_present:
+        #if self.robot_present:
             # self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STANDZERO, 50)
-            self.action_runner.load_waiting_action('play_motion', Motion().right_left)
+        #    self.action_runner.load_waiting_action('play_motion', Motion().right_left)
 
 
         # wait for fist to be grapped
