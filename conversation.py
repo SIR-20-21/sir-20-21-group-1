@@ -145,7 +145,7 @@ class Conversation:
             self.reset_recognition_management()
             return ReturnType.MAX_ATTEMPTS
 
-        if expected_answer is not None and self.recognition_manager['intent_result'] == expected_answer:
+        if expected_answer is not None and expected_answer in self.recognition_manager['intent_result']:
             self.reset_recognition_management()
             return ReturnType.SUCCESS
 
@@ -247,6 +247,16 @@ class Conversation:
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = str(int(detection_result.parameters['number'].number_value))
 
+            elif detection_result.intent == 'answer_color_question':
+                print(detection_result)
+                self.recognition_manager['attempt_success'] = True
+                self.recognition_manager['intent_result'] = str(detection_result.parameters['colour'].string_value)
+
+            elif detection_result.intent == 'answer_roof_question':
+                print(detection_result)
+                self.recognition_manager['attempt_success'] = True
+                self.recognition_manager['intent_result'] = str(detection_result.parameters['tool'].string_value)
+            
             elif detection_result.intent == 'joke_story_decision':
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = 1

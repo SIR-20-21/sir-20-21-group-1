@@ -11,7 +11,7 @@ class Story:
         :return:
         """
         # allows you to directly jump to a storypart
-        self.initial_id = "d20"
+        self.initial_id = "d57a"
 
         # This is the actual story
         # Each Storypart needs an ID, a content_type and the content.
@@ -78,7 +78,7 @@ class Story:
             
             #WALK-IN CLOSET SCENE STARTS HERE
             "d27": Storypart(id="d27", content_type="storypart", content="The closet is my favorite hiding spot for playing hide and seek.", follow_id="d28"),
-            "d28": Storypart(id="d28", content_type="storypart", content="I was looking on the top shelves and behind the clothes for some useful clues.", movement="point_up/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d29"),
+            "d28": Storypart(id="d28", content_type="storypart", content="I was looking on the top shelves and behind the clothes for some useful clues.", movement="point_up-d42859/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d29"),
             "d29": Storypart(id="d29", content_type="storypart", content="The only things I saw were shirts and pants in the primary colors: red, blue and yellow.", follow_id="d30"),
 
             "d30": Storypart(id="d30", content_type="question", content=("{0}, {1}", "answer_color_question", "green"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d31a", 1: "d31b"}),
@@ -99,7 +99,7 @@ class Story:
             "d38": Storypart(id="d38", content_type="storypart", content="When I stepped into the garden I heard a lot of birds.", soundfile="sounds/birds.wav", follow_id="d39"),
             "d39": Storypart(id="d39", content_type="storypart", content="In the middle of the garden there was a tree full of 40 parakeets", movement="flying-be9ea3/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d40"),            
             "d40": Storypart(id="d40", content_type="storypart", content="Half of the parakeets were green and the other half was red.", follow_id="d41"),
-            "d41": Storypart(id="d41", content_type="question", content=("{0}, {1}", "answer_easy_parakeets", "{0}"), follow_id={0: "d42a", 1: "d42b"}),
+            "d41": Storypart(id="d41", content_type="question", content=("{0}, {1}", "answer_math_question", "{0}"), follow_id={0: "d42a", 1: "d42b"}),
             "d42a": Storypart(id="d42a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d43"),
             "d42b": Storypart(id="d42b", content_type="storypart", content="Excellent!! The correct answer is indeed {0}.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d43"),
 
@@ -123,7 +123,7 @@ class Story:
             "d54": Storypart(id="d54", content_type="storypart", content="I walked straight to my hamsters cage to see how Hamtaro was doing", follow_id="d55"),
             "d55": Storypart(id="d55", content_type="storypart", content="I opened the cage and I looked directly into the feeding bowl of my very old hamster, was it possible that he ate my bananas?", soundfile="sounds/mouse.wav", movement="mouse_motion-3bf9b6/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d56"),
             "d56": Storypart(id="d56", content_type="question", content=("{0}","answer_hamster_question", "{0}"), follow_id={0: "d57a", 1: "d57b"}), 
-            "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually {1} years old.", follow_id="d58"),
+            "d57a": Storypart(id="d57a", content_type="storypart", content="Nope, my hamster is actually {0} years old.", follow_id="d58"),
             "d57b": Storypart(id="d57b", content_type="storypart", content="That’s correct!", movement="animations/Stand/Exclamation/NAO/Right_Strong_EXC_03", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d58"),
 
 
@@ -137,10 +137,10 @@ class Story:
         
             #START ATTIC SCENE 
             "d61": Storypart(id="d61", content_type="storypart", content="Then all the sudden a freshly peeled banana felt on my head", soundfile="sounds/thumping.wav", follow_id="d62"),         
-            "d62": Storypart(id="d62", content_type="storypart", content="I looked up and saw another banana dangling on the rope that leads to the attic, also known as my secret hiding spot and investigation headquarters", movement="point_up-d4285/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d63"),
+            "d62": Storypart(id="d62", content_type="storypart", content="I looked up and saw another banana dangling on the rope that leads to the attic, also known as my secret hiding spot and investigation headquarters", movement="point_up-d42859/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d63"),
             "d63": Storypart(id="d63", content_type="storypart", content="Pulling on the rope, the stairs to the attic flipped out", movement="pulling-c35961/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d64"),
             "d64": Storypart(id="d64", content_type="storypart", content="On the stairs to the attic I found again a banana peel, but this time I was more careful.", follow_id="d65"),
-            # "d65": Storypart(id="d65", content_type="storypart", content="When I arrived at the attic, I smelled something weird, so I entered carefully", movement=Motion().looking_around_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d66"),
+            "d65": Storypart(id="d65", content_type="storypart", content="When I arrived at the attic, I smelled something weird, so I entered carefully", movement=Motion().looking_around_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d66"),
             "d66": Storypart(id="d66", content_type="storypart", content="The first thing I had to do was to find the light switch, since the attic was completely dark and I didn’t want to slip on a banana again", follow_id="d67"),
             "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().backhand_right, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
             "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement='gorilla_motion-3ce914/behavior_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d69"),
@@ -177,6 +177,8 @@ class Story:
                 if type(self.story[storypart.id].follow_id) is str:
                     return self.story[self.story[storypart.id].follow_id]
                 elif type(self.story[storypart.id].follow_id) is dict:
+                    if branch_option is None:
+                        branch_option = 0
                     return self.story[self.story[storypart.id].follow_id[branch_option]]
 
         else:

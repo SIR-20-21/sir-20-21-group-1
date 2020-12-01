@@ -25,7 +25,7 @@ class Storyteller:
         :return:
         """
         self.sic.start()
-        self.conversation.introduce()
+        self.conversation.introduce(debug=True)
         self.sic.subscribe_touch_listener(
             'MiddleTactilTouched', self.conversation.detect_stop)
 
