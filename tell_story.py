@@ -94,40 +94,43 @@ class Storyteller:
                     storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, soundfile=part.soundfile)
 
             elif part.type == "choice":
-                last_choice = self.conversation.current_choice
+                self.conversation.current_choice = None
                 storypart = part.content
 
                 self.sic.subscribe_touch_listener(
                     'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
                 self.sic.subscribe_touch_listener(
                     'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                    
                 self.conversation.request_choice(question=Storypart.format(
                     storypart, self.conversation.user_model, part.id))
-                while (last_choice == self.conversation.current_choice):
+                while (self.conversation.current_choice is None):
                     pass
                 branch_option = self.conversation.current_choice
 
             elif part.type == "highfive":
-                self.conversation.request_highfive(part.content)
-
                 self.sic.subscribe_touch_listener(
                     'HandLeftLeftTouched', self.conversation.detect_highfive)
                 self.sic.subscribe_touch_listener(
                     'HandLeftRightTouched', self.conversation.detect_highfive)
 
+                self.conversation.request_highfive(part.content)
+
+
                 while (self.conversation.current_choice != 1):
                     pass
 
-        path = self.conversation.ask_question(
-            "Do you want to hear a story or another joke?", intent="joke_path")
-        while path == ReturnType.SUCCESS and self.conversation.current_choice == "joke":
-            # tell joke
-            joke = self.conversation.get_joke()
-            for joke_part in joke:
-                self.conversation.tell_story_part(text=joke_part)
+        if not self.conversation.stop:
             path = self.conversation.ask_question(
                 "Do you want to hear a story or another joke?", intent="joke_path")
-            pass
+            while path == ReturnType.SUCCESS and self.conversation.current_choice == "joke":
+                # tell joke
+                joke = self.conversation.get_joke()
+                for joke_part in joke:
+                    self.conversation.tell_story_part(text=joke_part)
+                path = self.conversation.ask_question(
+                    "Do you want to hear a story or another joke?", intent="joke_path")
+                pass
 
         self.conversation.end_conversation()
         self.sic.stop()

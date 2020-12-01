@@ -11,7 +11,7 @@ class Story:
         :return:
         """
         # allows you to directly jump to a storypart
-        self.initial_id = "d1"
+        self.initial_id = "d20"
 
         # This is the actual story
         # Each Storypart needs an ID, a content_type and the content.
@@ -43,7 +43,7 @@ class Story:
             "d8a": Storypart(id="d8a", content_type="storypart", content="Sorry, it was 24 steps. But good try, though!", follow_id="d9"),
             "d8b": Storypart(id="d8b", content_type="storypart", content="Well done! 24 steps indeed!", follow_id="d9"),
 
-            "d9": Storypart(id="d9", content_type="highfive", content="Give me a high five!", follow_id="d10"),
+            "d9": Storypart(id="d9", content_type="highfive", content="Give me a high five!", follow_id="d10a"),
             "d10a": Storypart(id="d10a", content_type="storypart", content="Back to the top of the stairs. Standing there in the corridor I had to make a very very difficult choice. On my left I heard a strange thumping sound.", soundfile='sounds/thumping.wav', follow_id="d10b"),
             "d10b": Storypart(id="d10b", content_type="storypart", content="and on my right I heard something that sounded like a trumpet", soundfile="sounds/trumpet.wav", follow_id="d11"),
 
@@ -83,10 +83,10 @@ class Story:
 
             "d30": Storypart(id="d30", content_type="question", content=("{0}, {1}", "answer_color_question", "green"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d31a", 1: "d31b"}),
             "d31a": Storypart(id="d31a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d32"),
-            # "d31b": Storypart(id="d31b", content_type="storypart", content="Very good!! The correct answer is indeed green.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d32"),
+            "d31b": Storypart(id="d31b", content_type="storypart", content="Very good!! The correct answer is indeed green.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d32"),
             "d32": Storypart(id="d32", content_type="question", content=("{0}", "answer_color_question", "orange"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d33a", 1: "d33b"}),
             "d33a": Storypart(id="d33a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d34"),
-            # "d33b": Storypart(id="d33b", content_type="storypart", content="Very good!! The correct answer is indeed orange.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d34"),
+            "d33b": Storypart(id="d33b", content_type="storypart", content="Very good!! The correct answer is indeed orange.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d34"),
 
             "d34": Storypart(id="d34", content_type="storypart", content="This is fun, I'm really happy that you are helping me!", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d35"),
             "d35": Storypart(id="d35", content_type="storypart", content="Okay, back to the story.", follow_id="d36"),
@@ -101,13 +101,13 @@ class Story:
             "d40": Storypart(id="d40", content_type="storypart", content="Half of the parakeets were green and the other half was red.", follow_id="d41"),
             "d41": Storypart(id="d41", content_type="question", content=("{0}, {1}", "answer_easy_parakeets", "{0}"), follow_id={0: "d42a", 1: "d42b"}),
             "d42a": Storypart(id="d42a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d43"),
-            # "d42b": Storypart(id="d42b", content_type="storypart", content="Excellent!! The correct answer is indeed {0}.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d43"),
+            "d42b": Storypart(id="d42b", content_type="storypart", content="Excellent!! The correct answer is indeed {0}.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d43"),
 
             "d43": Storypart(id="d43", content_type="storypart", content="After looking around in the garden I saw that the backdoor was unlocked with dirty footprints on the door, which reminded me of a human, but a little bit different", follow_id="d44"),
             "d44": Storypart(id="d44", content_type="storypart", content="I decided to follow the footprints, but the track continued on the roof.", follow_id="d45"),
             "d45": Storypart(id="d45", content_type="question", content=("{0}, what item could I use to get on the roof?","answer_roof_question", "ladder"), follow_id= {0: "d46a", 1: "d46b"}),
             "d46a": Storypart(id="d46a", content_type="storypart", content="No, unfortunately that is not correct, but still a very good try. We will be using a ladder.", follow_id="d47"),
-            # "d46b": Storypart(id="d46b", content_type="storypart", content="Smart thinking, we will indeed use a ladder.", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d47"),
+            "d46b": Storypart(id="d46b", content_type="storypart", content="Smart thinking, we will indeed use a ladder.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d47"),
             
             "d47": Storypart(id="d47", content_type="storypart", content="I climbed the ladder and got on the roof.", movement="climbing-db5359/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d48"),
             "d48": Storypart(id="d48", content_type="storypart", content="I noticed that the window of my room was standing wide open", follow_id="d49"),            
@@ -142,16 +142,16 @@ class Story:
             "d64": Storypart(id="d64", content_type="storypart", content="On the stairs to the attic I found again a banana peel, but this time I was more careful.", follow_id="d65"),
             # "d65": Storypart(id="d65", content_type="storypart", content="When I arrived at the attic, I smelled something weird, so I entered carefully", movement=Motion().looking_around_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d66"),
             "d66": Storypart(id="d66", content_type="storypart", content="The first thing I had to do was to find the light switch, since the attic was completely dark and I didn’t want to slip on a banana again", follow_id="d67"),
-            "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().right_arm_highfive, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
+            "d67": Storypart(id="d67", content_type="storypart", content="I turned on the lights with my right hand", movement=Motion().backhand_right, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d68"),
             "d68": Storypart(id="d68", content_type="storypart", content="And in front of me I saw a very big, hairy and funky looking monkey with some weird disco trousers on.", soundfile="sounds/monkey.wav", movement='gorilla_motion-3ce914/behavior_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d69"),
             "d69": Storypart(id="d69", content_type="storypart", content="The monkey was dancing, while juggling with three bananas.", movement="juggling-7a4d8b/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d70"),
-            # "d70": Storypart(id="d70", content_type="storypart", content="{0}, I think we found the thief who stole my breakfast!", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d71"),
+            "d70": Storypart(id="d70", content_type="storypart", content="{0}, I think we found the thief who stole my breakfast!", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d71"),
           
             #CLOSING SCENE 
             "d71": Storypart(id="d71", content_type="storypart", content="Then it came to me", follow_id="d72"),           
             "d72": Storypart(id="d72", content_type="question", content=("What place has monkeys, elephants and parakeets and could have been in town this whole week?","answer_circus_question", "circus"), follow_id={0: "d73a", 1: "d73b"}), 
-            # "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!!", soundfile="sounds/circus.wav", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
-            # "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!!", soundfile="sounds/circus.wav", movement=Motion().clapping_hands_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d74"),
+            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!!", soundfile="sounds/circus.wav", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d74"),
+            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!!", soundfile="sounds/circus.wav", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d74"),
             "d74": Storypart(id="d74", content_type="question", content="Would you like to do a funky monkey dance with me?", follow_id={0: "d75a", 1: "d76"}), 
             
             #YES
