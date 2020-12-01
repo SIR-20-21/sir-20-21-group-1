@@ -41,7 +41,7 @@ class Conversation:
     Basic elements of a conversation are implemented such as telling a story or asking a question and waiting for an answer.
     """
 
-    def __init__(self, sic: AbstractSICConnector, robot_present: bool = False):
+    def __init__(self, sic: AbstractSICConnector, robot_present: bool = False, speech_speed : int = 85):
         """
         :param sic: Connector implementing the interface to control the robot (AbstractSICConnector)
         :param robot_present: Indicating whether a real robot is used or only emulated on a computer. If false, all gestures will be skipped.
@@ -52,6 +52,8 @@ class Conversation:
             'attempt_success': False, 'attempt_number': 0, 'max_attempts': 2, 'intent_result': -1}
         self.robot_present = robot_present
         self.current_choice = ""
+        self.stop = False
+        self.speech_speed = speech_speed
 
     def introduce(self) -> None:
         """
@@ -61,9 +63,9 @@ class Conversation:
         if self.robot_present:
             self.action_runner.load_waiting_action('wake_up')
         self.action_runner.run_loaded_actions()
-        self.action_runner.run_waiting_action('say_animated', 'Hello! I am Nao.')
-        # self.ask_question(question="What is your name?", intent="answer_name")
-        # self.ask_question(question="Nice to meet you " + str(self.user_model["name"]) + ", how old are you?", intent="answer_age")
+        self.action_runner.run_waiting_action('say_animated', "\\rspd=" + str(self.speech_speed) + "\\" + 'Hello! I am Nao.')
+        self.ask_question(question="\\rspd=" + str(self.speech_speed) + "\\" + "What is your name?", intent="answer_name")
+        self.ask_question(question="\\rspd=" + str(self.speech_speed) + "\\" + "Nice to meet you " + str(self.user_model["name"]) + ", how old are you?", intent="answer_age")
 
     def end_conversation(self) -> None:
         """
@@ -89,9 +91,13 @@ class Conversation:
         self.current_choice = 1
         if self.robot_present:
             self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STAND)
-            
+
+    def detect_stop(self):
+        self.stop = True
+
+
     def request_choice(self, question: str = None, gesture = None):
-        self.action_runner.load_waiting_action('say_animated', question)
+        self.action_runner.load_waiting_action('say_animated', "\\rspd=" + str(self.speech_speed) + "\\" + question)
         if (self.robot_present and gesture is not None):
             self.action_runner.load_waiting_action('do_gesture', gesture)
         self.action_runner.run_loaded_actions()
@@ -119,8 +125,7 @@ class Conversation:
         """
         while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < self.recognition_manager['max_attempts']:
             # ask question
-            # TODO choose question depending on the given age
-            self.action_runner.load_waiting_action('say_animated', question)
+            self.action_runner.load_waiting_action('say_animated', "\\rspd=" + str(self.speech_speed) + "\\" + question)
             if (self.robot_present and gesture is not None):
                 self.action_runner.load_waiting_action('do_gesture', gesture)
             self.action_runner.run_loaded_actions()
@@ -152,7 +157,7 @@ class Conversation:
         :param movement: movement to be made while the storypart is being told (str)
         :return:
         """
-        self.action_runner.load_waiting_action('say_animated', "\\rspd=50\\" + text)
+        self.action_runner.load_waiting_action('say_animated', "\\rspd=" + str(self.speech_speed) + "\\" + text)
 
         if (self.robot_present and movement is not None):
             if movement_type == MOVEMENT_TYPE.POSTURE:
@@ -244,6 +249,7 @@ class Conversation:
             elif detection_result.intent == "stop":
                 # self.end_conversation()
                 self.recognition_manager['intent_result'] = 0
+                self.stop = True
 
             else:
                 self.recognition_manager['attempt_number'] += 1
