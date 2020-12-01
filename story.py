@@ -11,7 +11,7 @@ class Story:
         :return:
         """
         # allows you to directly jump to a storypart
-        self.initial_id = "d57a"
+        self.initial_id = "d1"
 
         # This is the actual story
         # Each Storypart needs an ID, a content_type and the content.
@@ -30,7 +30,9 @@ class Story:
             "s1": Storypart(id="s1", content_type="storypart", content="Thank you for helping me!"),
             #
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
-            "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "s1", 1: "d3"}),
+            "d2": Storypart(id="d2", content_type="storypart", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id='d2a'),
+            "d2a": Storypart(id="d2a", content_type="choice", content="Touch my right for yes, and my left for no", movement=Motion().right_left ,movement_type=MOVEMENT_TYPE.MOTION,follow_id={0: "s1", 1: "d3"}),
+            #EXPLAIN THE HAND MOVEMENT
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
             "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. I rolled out of bed straight to the kitchen to make myself a major breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the bowl on my wooden table were gone. While in a hurry, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
             "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
@@ -193,7 +195,7 @@ class Storypart:
     Represents a part of a story (e.g. a question or just text) that can include, text or gestures and can require human feedback.
     """
 
-    def __init__(self, id: str, content_type: str, content, movement: str = None, movement_type: MOVEMENT_TYPE = None, soundfile: str = None, follow_id=None):
+    def __init__(self, id: str, content_type: str, content, movement: str = None, movement_type: MOVEMENT_TYPE = None, eye_color: str = None, soundfile: str = None, follow_id=None):
         """
         :param id: Identification of storypart (str)
         :param content_type: Determines whether human feedback is needed or not. (str)
@@ -206,6 +208,7 @@ class Storypart:
         self.movement = movement
         self.movement_type = movement_type
         self.soundfile = soundfile
+        self.eye_color = eye_color
         self.follow_id = follow_id
 
     @staticmethod
