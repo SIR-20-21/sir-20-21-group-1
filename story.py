@@ -31,7 +31,7 @@ class Story:
             #
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
             "d2": Storypart(id="d2", content_type="storypart", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id='d2a'),
-            "d2a": Storypart(id="d2a", content_type="choice", content="Touch my right for yes, and my left for no", movement=Motion().right_left ,movement_type=MOVEMENT_TYPE.MOTION,follow_id={0: "s1", 1: "d3"}),
+            "d2a": Storypart(id="d2a", content_type="choice", content="Touch my left for yes, and my right for no.", movement=Motion().right_left ,movement_type=MOVEMENT_TYPE.MOTION,follow_id={0: "s1", 1: "d3"}),
             #EXPLAIN THE HAND MOVEMENT
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
             "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. I rolled out of bed straight to the kitchen to make myself a major breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the bowl on my wooden table were gone. While in a hurry, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
@@ -85,10 +85,10 @@ class Story:
 
             "d30": Storypart(id="d30", content_type="question", content=("{0}, {1}", "answer_color_question", "green"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d31a", 1: "d31b"}),
             "d31a": Storypart(id="d31a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d32"),
-            "d31b": Storypart(id="d31b", content_type="storypart", content="Very good!! The correct answer is indeed green.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d32"),
+            "d31b": Storypart(id="d31b", content_type="storypart", content="Very good! The correct answer is indeed green.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d32"),
             "d32": Storypart(id="d32", content_type="question", content=("{0}", "answer_color_question", "orange"), movement=Motion().mixing_movement, movement_type=MOVEMENT_TYPE.MOTION, follow_id={0: "d33a", 1: "d33b"}),
             "d33a": Storypart(id="d33a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d34"),
-            "d33b": Storypart(id="d33b", content_type="storypart", content="Very good!! The correct answer is indeed orange.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d34"),
+            "d33b": Storypart(id="d33b", content_type="storypart", content="Very good! The correct answer is indeed orange.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d34"),
 
             "d34": Storypart(id="d34", content_type="storypart", content="This is fun, I'm really happy that you are helping me!", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d35"),
             "d35": Storypart(id="d35", content_type="storypart", content="Okay, back to the story.", follow_id="d36"),
@@ -103,7 +103,7 @@ class Story:
             "d40": Storypart(id="d40", content_type="storypart", content="Half of the parakeets were green and the other half was red.", follow_id="d41"),
             "d41": Storypart(id="d41", content_type="question", content=("{0}, {1}", "answer_math_question", "{0}"), follow_id={0: "d42a", 1: "d42b"}),
             "d42a": Storypart(id="d42a", content_type="storypart", content="No unfortunately that is not correct, but still a very good try. {0}", follow_id="d43"),
-            "d42b": Storypart(id="d42b", content_type="storypart", content="Excellent!! The correct answer is indeed {0}.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d43"),
+            "d42b": Storypart(id="d42b", content_type="storypart", content="Excellent! The correct answer is indeed {0}.", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d43"),
 
             "d43": Storypart(id="d43", content_type="storypart", content="After looking around in the garden I saw that the backdoor was unlocked with dirty footprints on the door, which reminded me of a human, but a little bit different", follow_id="d44"),
             "d44": Storypart(id="d44", content_type="storypart", content="I decided to follow the footprints, but the track continued on the roof.", follow_id="d45"),
@@ -152,9 +152,10 @@ class Story:
             #CLOSING SCENE 
             "d71": Storypart(id="d71", content_type="storypart", content="Then it came to me", follow_id="d72"),           
             "d72": Storypart(id="d72", content_type="question", content=("What place has monkeys, elephants and parakeets and could have been in town this whole week?","answer_circus_question", "circus"), follow_id={0: "d73a", 1: "d73b"}), 
-            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!!", soundfile="sounds/circus.wav", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d74"),
-            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!!", soundfile="sounds/circus.wav", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d74"),
-            "d74": Storypart(id="d74", content_type="question", content="Would you like to do a funky monkey dance with me?", follow_id={0: "d75a", 1: "d76"}), 
+            "d73a": Storypart(id="d73a", content_type="storypart", content="Yes the circus is in town!", soundfile="sounds/circus.wav", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d74"),
+            "d73b": Storypart(id="d73b", content_type="storypart", content="No, the circus is in town!", soundfile="sounds/circus.wav", movement="clapping-ed52d2/behavior_1", movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d74"),
+            "d74": Storypart(id="d74", content_type="storypart", content="Would you like to do a funky monkey dance with me?", follow_id="d74a"), 
+            "d74a": Storypart(id="d74a", content_type="choice", content="Touch my left arm for yes or my right arm for no.", follow_id={0: "d75a", 1: "d76"}),
             
             #YES
             # TODO insert disco sound
@@ -227,6 +228,8 @@ class Storypart:
         ###########
         # example for math question depending on user age
         elif story_part_id == "d1":
+            if user_model["name"] == '':
+                return text.format("My friend")
             return text.format(user_model["name"])
 
         elif story_part_id == "d7a":
@@ -237,9 +240,9 @@ class Storypart:
 
         elif story_part_id == "d22":
             if user_model["age"] < 9:
-                return text.format(user_model["name"], "what is the favourite food of an elephant: chocolate or peanuts?")
+                return text.format(user_model["name"] if user_model["name"] != '' else "My friend", "what is the favourite food of an elephant: chocolate or peanuts?")
             else:
-                return text.format(user_model["name"], "How much grass and leaves does an elephant consume every day: 150 kilograms or 15 kilograms?")
+                return text.format(user_model["name"] if user_model["name"] != '' else "My friend", "How much grass and leaves does an elephant consume every day: 150 kilograms or 15 kilograms?")
         
         elif story_part_id == "answer_d22":
             if user_model["age"] < 9:
@@ -267,9 +270,9 @@ class Storypart:
 
         elif story_part_id == "d30":
             if user_model["age"] < 9:
-                return text.format(user_model["name"], "what color do you get when you mix the colors blue and yellow?")
+                return text.format(user_model["name"] if user_model["name"] != '' else "My friend", "what color do you get when you mix the colors blue and yellow?")
             else:
-                return text.format(user_model["name"], "what is the opposite color of the color red?")
+                return text.format(user_model["name"] if user_model["name"] != '' else "My friend", "what is the opposite color of the color red?")
 
         elif story_part_id == "d31a":
             if user_model["age"] < 9:
@@ -314,6 +317,8 @@ class Storypart:
                 return text.format("15")
 
         elif story_part_id == "d45":
+            if user_model["name"] == '':
+                return text.format("My friend")
             return text.format(user_model["name"])
 
         elif story_part_id == "d56":
@@ -335,9 +340,13 @@ class Storypart:
                 return text.format(str(int(user_model["age"] * 3)))
         
         elif story_part_id == "d70":
+            if user_model["name"] == '':
+                return text.format("My friend")
             return text.format(user_model["name"])
 
         elif story_part_id == "d75b":
+            if user_model["name"] == '':
+                return text.format("My friend")
             return text.format(user_model["name"])
             
         else:

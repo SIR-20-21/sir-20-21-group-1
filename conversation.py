@@ -82,7 +82,8 @@ class Conversation:
             self.action_runner.run_waiting_action('rest')
 
     def request_highfive(self, text):
-        self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
+        if self.robot_present:
+            self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
         self.action_runner.load_waiting_action('say', "\\rspd=" + str(self.speech_speed) + "\\" + text)
         if self.robot_present:
             self.current_choice = 0
@@ -102,7 +103,8 @@ class Conversation:
 
 
     def request_choice(self, question: str = None, gesture = None):
-        self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
+        if self.robot_present:
+            self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
         if self.robot_present:
             # self.action_runner.load_waiting_action('go_to_posture', RobotPosture.STANDZERO, 50)
             self.action_runner.load_waiting_action('play_motion', Motion().right_left)
@@ -151,9 +153,11 @@ class Conversation:
             self.reset_recognition_management()
             return ReturnType.MAX_ATTEMPTS
 
-        if expected_answer is not None and expected_answer in self.recognition_manager['intent_result']:
-            self.reset_recognition_management()
-            return ReturnType.SUCCESS
+        if expected_answer is not None:
+            if (type(expected_answer) == int and expected_answer == self.recognition_manager['intent_result'] or
+                type(expected_answer) == str and expected_answer in self.recognition_manager['intent_result']):
+                self.reset_recognition_management()
+                return ReturnType.SUCCESS
 
         elif expected_answer is None and self.recognition_manager['intent_result'] == 1:
             self.reset_recognition_management()
@@ -184,6 +188,8 @@ class Conversation:
         if self.robot_present and eye_color is not None:
             self.action_runner.load_waiting_action('set_eye_color', eye_color)
         self.action_runner.run_loaded_actions()
+        if self.robot_present:
+            self.action_runner.run_waiting_action('go_to_posture', RobotPosture.STAND)
 
     # def tell_joke(self) -> None:  # , gesture: Gesture = None) -> None:
     #     """
@@ -257,7 +263,7 @@ class Conversation:
             elif detection_result.intent == 'answer_color_question':
                 print(detection_result)
                 self.recognition_manager['attempt_success'] = True
-                self.recognition_manager['intent_result'] = str(detection_result.parameters['colour'].string_value)
+                self.recognition_manager['intent_result'] = str(detection_result.parameters['color'].string_value)
 
             elif detection_result.intent == 'answer_roof_question':
                 print(detection_result)

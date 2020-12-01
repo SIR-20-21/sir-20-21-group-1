@@ -25,7 +25,7 @@ class Storyteller:
         :return:
         """
         self.sic.start()
-        self.conversation.introduce(debug=True)
+        self.conversation.introduce(debug=False)
         self.sic.subscribe_touch_listener(
             'MiddleTactilTouched', self.conversation.detect_stop)
 
@@ -97,10 +97,13 @@ class Storyteller:
                 self.conversation.current_choice = None
                 storypart = part.content
 
-                self.sic.subscribe_touch_listener(
-                    'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
-                self.sic.subscribe_touch_listener(
-                    'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                if self.conversation.robot_present:
+                    self.sic.subscribe_touch_listener(
+                        'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
+                    self.sic.subscribe_touch_listener(
+                        'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                else:
+                    self.conversation.current_choice = 1
                     
                 self.conversation.request_choice(question=Storypart.format(
                     storypart, self.conversation.user_model, part.id))
@@ -122,14 +125,14 @@ class Storyteller:
 
         if not self.conversation.stop:
             path = self.conversation.ask_question(
-                "Do you want to hear a story or another joke?", intent="joke_path")
+                "Do you want to hear another joke or stop?", intent="joke_path")
             while path == ReturnType.SUCCESS and self.conversation.current_choice == "joke":
                 # tell joke
                 joke = self.conversation.get_joke()
                 for joke_part in joke:
                     self.conversation.tell_story_part(text=joke_part)
                 path = self.conversation.ask_question(
-                    "Do you want to hear a story or another joke?", intent="joke_path")
+                    "Do you want to hear another joke or stop?", intent="joke_path")
                 pass
 
         self.conversation.end_conversation()
