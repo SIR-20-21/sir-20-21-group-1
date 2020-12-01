@@ -11,7 +11,7 @@ class Story:
         :return:
         """
         # allows you to directly jump to a storypart
-        self.initial_id = "d20"
+        self.initial_id = "d1"
 
         # This is the actual story
         # Each Storypart needs an ID, a content_type and the content.
@@ -193,7 +193,7 @@ class Storypart:
     Represents a part of a story (e.g. a question or just text) that can include, text or gestures and can require human feedback.
     """
 
-    def __init__(self, id: str, content_type: str, content, movement: str = None, movement_type: MOVEMENT_TYPE = None, soundfile: str = None, follow_id=None):
+    def __init__(self, id: str, content_type: str, content, movement: str = None, movement_type: MOVEMENT_TYPE = None, eye_color: str = None, soundfile: str = None, follow_id=None):
         """
         :param id: Identification of storypart (str)
         :param content_type: Determines whether human feedback is needed or not. (str)
@@ -206,6 +206,7 @@ class Storypart:
         self.movement = movement
         self.movement_type = movement_type
         self.soundfile = soundfile
+        self.eye_color = eye_color
         self.follow_id = follow_id
 
     @staticmethod
