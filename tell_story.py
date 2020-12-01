@@ -91,7 +91,7 @@ class Storyteller:
             elif part.type == "storypart":
                 storypart = part.content
                 self.conversation.tell_story_part(Storypart.format(
-                    storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, soundfile=part.soundfile)
+                    storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, eye_color=part.eye_color, soundfile=part.soundfile)
 
             elif part.type == "choice":
                 self.conversation.current_choice = None

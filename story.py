@@ -30,7 +30,9 @@ class Story:
             "s1": Storypart(id="s1", content_type="storypart", content="Thank you for helping me!"),
             #
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes and it is really nice to meet you, {0}.", follow_id="d2"),
-            "d2": Storypart(id="d2", content_type="choice", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id={0: "s1", 1: "d3"}),
+            "d2": Storypart(id="d2", content_type="storypart", content="I’m going to solve a very interesting mystery today. Would you like to join me?", follow_id='d2a'),
+            "d2a": Storypart(id="d2", content_type="choice", content="Touch my left for yes, and my right for no", movement=Motion().right_left ,movement_type=MOVEMENT_TYPE.MOTION,follow_id={0: "s1", 1: "d3"}),
+            #EXPLAIN THE HAND MOVEMENT
             "d3": Storypart(id="d3", content_type="storypart", content="Okay cool, from now on you will be my personal detective!", follow_id="d4"),
             "d4": Storypart(id="d4", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. I rolled out of bed straight to the kitchen to make myself a major breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the bowl on my wooden table were gone. While in a hurry, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground like this", follow_id="d4a"),
             "d4a": Storypart(id="d4a", content_type="storypart", content="", movement=RobotPosture.LYINGBACK, movement_type=MOVEMENT_TYPE.POSTURE, follow_id="d5"),
