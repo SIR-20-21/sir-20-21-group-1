@@ -1,7 +1,6 @@
 from conversation import Conversation, ReturnType
 from social_interaction_cloud.basic_connector import BasicSICConnector
 from story import Story, Storypart
-# from naoqi import ALProxy
 
 
 class Storyteller:
@@ -17,11 +16,9 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic, robot_present=True)
+        self.conversation = Conversation(self.sic, robot_present=False)
         self.story = Story()
 
-        # self.tts = ALProxy("ALTextToSpeech", server_ip, 9559)
-        # self.tts.setParameter("speed", 200)
 
     def run(self) -> None:
         """
@@ -32,7 +29,16 @@ class Storyteller:
         self.conversation.introduce()
 
         # TODO implement decision between story and jokes here
+        path = self.conversation.ask_question("Do you want to hear a story or a joke?", intent="joke_path")
+        while path == ReturnType.SUCCESS and self.conversation.current_choice == "joke":
+            # tell joke
+            joke = self.conversation.get_joke()
+            for joke_part in joke:
+                self.conversation.tell_story_part(text=joke_part)
+            path = self.conversation.ask_question("Do you want to hear a story or another joke?", intent="joke_path")
+            pass
 
+        # START STORY
         part = None
         branch_option = None
         while True:
@@ -93,7 +99,7 @@ class Storyteller:
                     storypart, self.conversation.user_model, part.id))
                 while (last_choice == self.conversation.current_choice):
                     pass
-                choice = self.conversation.current_choice
+                branch_option = self.conversation.current_choice
 
             elif part.type == "highfive":
                 self.conversation.request_highfive(part.content)

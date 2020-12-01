@@ -78,8 +78,8 @@ class Story:
             #maybe add interaction momement with touching NAO's hands?
             # TODO if the highfive works, insert one here
             
-            "d23a": Storypart(id="d23a", content_type="storypart", content="No, unfortunately {0} is not correct. {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
-            "d23b": Storypart(id="d23b", content_type="storypart", content="Yes, very good! {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="24"),
+            "d23a": Storypart(id="d23a", content_type="storypart", content="No, unfortunately {0} is not correct. {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d24"),
+            "d23b": Storypart(id="d23b", content_type="storypart", content="Yes, very good! {0}", movement=Motion().big_gesture, movement_type=MOVEMENT_TYPE.MOTION, follow_id="d24"),
             "d24": Storypart(id="d24", content_type="storypart", content="Just to be sure, I asked the elephant if he wanted to have a banana, but he kindly refused", movement='animations/Stand/Gestures/No_8', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d25"),
             "d25": Storypart(id="d25", content_type="storypart", content=" I had enough information, so I went to another room to continue my investigation. Where shall we go now?", follow_id="d26"),
             # TODO maybe better say which arm is which option
@@ -230,6 +230,9 @@ class Storypart:
         # LIST ALL STORYPARTS HERE THAT NEED INFORMATION FROM THE USER MODEL OR OTHER INFORMATION INSERTED
         ###########
         # example for math question depending on user age
+        elif story_part_id == "d1":
+            return text.format(user_model["name"])
+
         elif story_part_id == "d7a":
             if user_model["age"] < 9:
                 return text.format("taking two steps at a time. In total, I had to take 12 steps.")
