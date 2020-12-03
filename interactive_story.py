@@ -16,8 +16,8 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic, robot_present=True)
-        self.story = Story()
+        self.conversation = Conversation(self.sic, robot_present=True, animation=True)
+        self.story = Story(interactive=True)
 
     def run(self) -> None:
         """
@@ -25,7 +25,7 @@ class Storyteller:
         :return:
         """
         self.sic.start()
-        self.conversation.introduce(debug=False)
+        self.conversation.introduce(interaction=True)
         self.sic.subscribe_touch_listener(
             'MiddleTactilTouched', self.conversation.detect_stop)
 
