@@ -1,3 +1,26 @@
+from conversation import Motion, MOVEMENT_TYPE
+from social_interaction_cloud.basic_connector import RobotPosture
+
+class Story:
+
+    def __init__(non_story):
+        """https://github.com/SIR-20-21/sir-20-21-group-1
+        :return:
+        """
+        # allows you to directly jump to a storypart
+        self.initial_id = "d1"
+
+        # This is the actual story
+        # Each Storypart needs an ID, a content_type and the content.
+        # The ID is for unique identification and is used to indicate the following storypart.
+        # The content_type is a storypart
+        #   storypart   -> text
+        # Optionally, there can be a follow_id. If none is provided, the story ends after this part.
+        #   If the follow_id is a string, then this determines the next storypart
+
+        non_story.story = {            
+            
+            
             "d1": Storypart(id="d1", content_type="storypart", content="Hi, my name is NAO Holmes, follow_id="d2"),
             "d2": Storypart(id="d2", content_type="storypart", content="I’m going to solve a very interesting mystery today", follow_id=""d3"),
             "d3": Storypart(id="d3", content_type="storypart", content="So the following happened this morning: 'By 7 a.m. I rolled out of bed straight to the kitchen to make myself a major breakfast, because I was hungry as a bear. Suddenly, I noticed something very odd: all the bananas that I bought yesterday and were placed in the bowl on my wooden table were gone. While in a hurry, I ran to the hallway when suddenly I slipped on a peeled banana. Before I knew it was laying on the ground", follow_id="d4"),
