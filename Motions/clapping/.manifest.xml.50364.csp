@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.0" uuid="clapping-ed52d2">
+ <names>
+  <name lang="en_US">clapping</name>
+ </names>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>
