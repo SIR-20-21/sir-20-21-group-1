@@ -18,30 +18,33 @@ class Example:
 
     def run(self) -> None:
         self.sic.start()
-        if (self.introduce()):
-            print('here')
-            self.action_runner.run_waiting_action('set_language', 'en-US')
+        self.action_runner.run_action('say_animated', "hahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahhhahahahahahahahahh")
+        sleep(2)
+        self.action_runner.run_action('say_animated', 'hello')
+        # if (self.introduce()):
+        #     print('here')
+        #     self.action_runner.run_waiting_action('set_language', 'en-US')
 
-            while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < 2:
-                self.action_runner.run_waiting_action('say', 'Hello, world! Tell me your name.')
-                self.action_runner.run_waiting_action('speech_recognition', 'answer_name', 0, additional_callback=self.on_intent)
+        #     while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < 2:
+        #         self.action_runner.run_waiting_action('say', 'Hello, world! Tell me your name.')
+        #         self.action_runner.run_waiting_action('speech_recognition', 'answer_name', 0, additional_callback=self.on_intent)
 
-            self.reset_recognition_management()
+        #     self.reset_recognition_management()
 
 
-            if 'name' in self.user_model:
-                self.action_runner.run_waiting_action('say', 'Thank you!')
+        #     if 'name' in self.user_model:
+        #         self.action_runner.run_waiting_action('say', 'Thank you!')
 
-            while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < 2:
-                self.action_runner.run_waiting_action('say', 'How old are you?')
-                self.action_runner.run_waiting_action('speech_recognition', 'answer_age', 0, additional_callback=self.on_intent)
+        #     while not self.recognition_manager['attempt_success'] and self.recognition_manager['attempt_number'] < 2:
+        #         self.action_runner.run_waiting_action('say', 'How old are you?')
+        #         self.action_runner.run_waiting_action('speech_recognition', 'answer_age', 0, additional_callback=self.on_intent)
 
-            if 'age' in self.user_model:
-                my_age = 5
-                self.action_runner.run_waiting_action('say', 'Oh, I am ' + str(my_age) + ' years old, so you are ' + str(self.user_model['age'] - 5) + ' years older than me')
-        else:
-            self.action_runner.run_waiting_action('say', 'Bye bye!')
-            # self.action_runner.run_waiting_action('rest')
+        #     if 'age' in self.user_model:
+        #         my_age = 5
+        #         self.action_runner.run_waiting_action('say', 'Oh, I am ' + str(my_age) + ' years old, so you are ' + str(self.user_model['age'] - 5) + ' years older than me')
+        # else:
+        #     self.action_runner.run_waiting_action('say', 'Bye bye!')
+        #     # self.action_runner.run_waiting_action('rest')
 
         self.sic.stop()
 

@@ -16,9 +16,8 @@ class Storyteller:
         """
         self.sic = BasicSICConnector(
             server_ip, 'en-US', dialogflow_key_file, dialogflow_agent_id)
-        self.conversation = Conversation(self.sic, robot_present=False)
-        self.story = Story()
-
+        self.conversation = Conversation(self.sic, robot_present=True, animation=True)
+        self.story = Story(interactive=True)
 
     def run(self) -> None:
         """
@@ -26,22 +25,28 @@ class Storyteller:
         :return:
         """
         self.sic.start()
-        self.conversation.introduce()
+        self.conversation.introduce(interaction=True)
+        self.sic.subscribe_touch_listener(
+            'MiddleTactilTouched', self.conversation.detect_stop)
 
-        # TODO implement decision between story and jokes here
-        path = self.conversation.ask_question("Do you want to hear a story or a joke?", intent="joke_path")
+        path = self.conversation.ask_question(
+            "Do you want to hear a story or a joke?", intent="joke_path")
         while path == ReturnType.SUCCESS and self.conversation.current_choice == "joke":
             # tell joke
             joke = self.conversation.get_joke()
             for joke_part in joke:
                 self.conversation.tell_story_part(text=joke_part)
-            path = self.conversation.ask_question("Do you want to hear a story or another joke?", intent="joke_path")
+            path = self.conversation.ask_question(
+                "Do you want to hear a story or another joke?", intent="joke_path")
             pass
 
         # START STORY
         part = None
         branch_option = None
         while True:
+            if self.conversation.stop:
+                break
+
             part = self.story.getFollowUp(part, branch_option)
             if (part is None):
                 break
@@ -58,22 +63,23 @@ class Storyteller:
                 elif res == ReturnType.MAX_ATTEMPTS:
                     self.conversation.tell_story_part(
                         "Sorry, I did not understand your answer.")
+
                     # TODO ask for repetetion or ending through fist bump
                     # res = self.conversation.ask_question(question, intent)
-                    last_choice = self.conversation.current_choice
-                    self.sic.subscribe_touch_listener(
-                        'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
-                    self.sic.subscribe_touch_listener(
-                        'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
-                    self.conversation.request_choice(
-                        "To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
-                    while (last_choice == self.conversation.current_choice):
-                        pass
-                    if last_choice == 0:
-                        # TODO implement repetition
-                        pass
-                    elif last_choice == 1:
-                        break
+                    # last_choice = self.conversation.current_choice
+                    # self.sic.subscribe_touch_listener(
+                    #     'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
+                    # self.sic.subscribe_touch_listener(
+                    #     'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                    # self.conversation.request_choice(
+                    #     "To repeat the last part fistbump my right fist. To stop fistbump my left fist.")
+                    # while (last_choice == self.conversation.current_choice):
+                    #     pass
+                    # if last_choice == 0:
+                    #     # TODO implement repetition
+                    #     pass
+                    # elif last_choice == 1:
+                    #     break
                 elif res == ReturnType.WRONG_ANSWER:
                     branch_option = 0
                 elif res == ReturnType.SUCCESS:
@@ -85,34 +91,49 @@ class Storyteller:
             elif part.type == "storypart":
                 storypart = part.content
                 self.conversation.tell_story_part(Storypart.format(
-                    storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, soundfile=part.soundfile)
+                    storypart, self.conversation.user_model, part.id), movement=part.movement, movement_type=part.movement_type, eye_color=part.eye_color, soundfile=part.soundfile)
 
             elif part.type == "choice":
-                last_choice = self.conversation.current_choice
+                self.conversation.current_choice = None
                 storypart = part.content
 
-                self.sic.subscribe_touch_listener(
-                    'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
-                self.sic.subscribe_touch_listener(
-                    'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                if self.conversation.robot_present:
+                    self.sic.subscribe_touch_listener(
+                        'HandRightBackTouched', lambda: self.conversation.set_current_choice(0))
+                    self.sic.subscribe_touch_listener(
+                        'HandLeftBackTouched', lambda: self.conversation.set_current_choice(1))
+                else:
+                    self.conversation.current_choice = 1
+                    
                 self.conversation.request_choice(question=Storypart.format(
                     storypart, self.conversation.user_model, part.id))
-                while (last_choice == self.conversation.current_choice):
+                while (self.conversation.current_choice is None):
                     pass
                 branch_option = self.conversation.current_choice
 
             elif part.type == "highfive":
-                self.conversation.request_highfive(part.content)
-                
                 self.sic.subscribe_touch_listener(
                     'HandLeftLeftTouched', self.conversation.detect_highfive)
                 self.sic.subscribe_touch_listener(
                     'HandLeftRightTouched', self.conversation.detect_highfive)
 
+                self.conversation.request_highfive(part.content)
+
+
                 while (self.conversation.current_choice != 1):
                     pass
 
-
+        if not self.conversation.stop:
+            path = self.conversation.ask_question(
+                "Do you want to hear another joke or stop?", intent="joke_path")
+            while path == ReturnType.SUCCESS and self.conversation.current_choice == "joke":
+                # tell joke
+                joke = self.conversation.get_joke()
+                for joke_part in joke:
+                    self.conversation.tell_story_part(text=joke_part)
+                path = self.conversation.ask_question(
+                    "Do you want to hear another joke or stop?", intent="joke_path")
+                pass
 
         self.conversation.end_conversation()
         self.sic.stop()
