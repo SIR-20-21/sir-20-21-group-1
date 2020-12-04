@@ -277,22 +277,24 @@ class Conversation:
                 self.recognition_manager['intent_result'] = 1
 
             elif detection_result.intent == 'answer_math_question':
-                # print(detection_result)
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = str(
                     int(detection_result.parameters['number'].number_value))
 
             elif detection_result.intent == 'answer_color_question':
-                print(detection_result)
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = str(
                     detection_result.parameters['color'].string_value)
 
             elif detection_result.intent == 'answer_roof_question':
-                print(detection_result)
                 self.recognition_manager['attempt_success'] = True
                 self.recognition_manager['intent_result'] = str(
                     detection_result.parameters['tool'].string_value)
+
+            elif detection_result.intent == 'answer_food_question':
+                self.recognition_manager['attempt_success'] = True
+                self.recognition_manager['intent_result'] = str(
+                    detection_result.parameters['food'].string_value)
 
             elif detection_result.intent == 'joke_story_decision':
                 self.recognition_manager['attempt_success'] = True
