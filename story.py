@@ -119,7 +119,7 @@ class Story:
                 
                 #YES
                 # TODO insert disco sound
-                "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", soundfile=None, movement='disco_dance-eb402b/behavior_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d75a"),
+                "d76": Storypart(id="d76", content_type="storypart", content="Disco time!", soundfile="sounds/disco.wav", movement='disco_dance-eb402b/behavior_1', movement_type=MOVEMENT_TYPE.GESTURE, follow_id="d75a"),
 
                 #NO
                 "d75a": Storypart(id="d75a", content_type="storypart", content="Alright, thank you for participating and being my help detective for today", follow_id="d75b"),           
